@@ -1,0 +1,162 @@
+<!doctype html>
+<!--
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE
+The complete set of authors may be found at http://polymer.github.io/AUTHORS
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS
+-->
+
+<html>
+  <head>
+
+    <title>at-carbon-tabs</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <link rel="import" href="../layout/layout.html">
+    <link rel="import" href="../layout/shadow-layout.html">
+
+    <link rel="import" href="../core-toolbar/core-toolbar.html">
+
+    <link rel="import" href="at-carbon-tabs.html">
+    <link rel="import" href="at-carbon-tab.html">
+
+    <style>
+
+      body {
+        font-family: sans-serif;
+        margin: 0;
+        padding: 24px;
+        color: #333;
+      }
+
+      at-carbon-tabs, core-toolbar {
+        background-color: #00bcd4;
+        color: #fff;
+        box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
+      }
+
+      core-toolbar at-carbon-tabs {
+        box-shadow: none;
+      }
+
+      at-carbon-tabs[noink][nobar] at-carbon-tab.core-selected {
+        color: #ffff8d;
+      }
+
+      at-carbon-tabs[alignBottom] {
+        box-shadow: 0px -2px 6px rgba(0, 0, 0, 0.15);
+      }
+
+      h3 {
+        font-size: 16px;
+        font-weight: 400;
+        padding-top: 20px;
+      }
+
+    </style>
+
+  </head>
+  <body>
+
+    <h3>A. No ink effect and no sliding bar</h3>
+
+    <at-carbon-tabs selected="0" noink nobar>
+
+      <at-carbon-tab>ITEM ONE</at-carbon-tab>
+      <at-carbon-tab>ITEM TWO</at-carbon-tab>
+      <at-carbon-tab>ITEM THREE</at-carbon-tab>
+
+    </at-carbon-tabs>
+
+    <h3>B. The bottom bar appears to indicate the selected tab, but without sliding effect.</h3>
+
+    <at-carbon-tabs selected="0" noink noslide>
+
+      <at-carbon-tab>ITEM ONE</at-carbon-tab>
+      <at-carbon-tab>ITEM TWO</at-carbon-tab>
+      <at-carbon-tab>ITEM THREE</at-carbon-tab>
+
+    </at-carbon-tabs>
+
+    <h3>C. The bar slides to the selected tab</h3>
+
+    <at-carbon-tabs selected="0" noink>
+
+      <at-carbon-tab>ITEM ONE</at-carbon-tab>
+      <at-carbon-tab>ITEM TWO</at-carbon-tab>
+      <at-carbon-tab>ITEM THREE</at-carbon-tab>
+
+    </at-carbon-tabs>
+
+    <h3>D. Inky Tabs</h3>
+
+    <at-carbon-tabs selected="0">
+
+      <at-carbon-tab>ITEM ONE</at-carbon-tab>
+      <at-carbon-tab>ITEM TWO</at-carbon-tab>
+      <at-carbon-tab>ITEM THREE</at-carbon-tab>
+
+    </at-carbon-tabs>
+
+    <h3>E. Scrollable Tabs</h3>
+
+    <at-carbon-tabs id="scrollableTabs" selected="0" scrollable>
+
+      <at-carbon-tab>NUMBER ONE ITEM</at-carbon-tab>
+      <at-carbon-tab>ITEM TWO</at-carbon-tab>
+      <at-carbon-tab>THE THIRD ITEM</at-carbon-tab>
+      <at-carbon-tab>THE ITEM FOUR</at-carbon-tab>
+      <at-carbon-tab>FIFTH</at-carbon-tab>
+      <at-carbon-tab>THE SIXTH TAB</at-carbon-tab>
+      <at-carbon-tab>NUMBER SEVEN</at-carbon-tab>
+      <at-carbon-tab>EIGHT</at-carbon-tab>
+      <at-carbon-tab>NUMBER NINE</at-carbon-tab>
+      <at-carbon-tab>THE TENTH</at-carbon-tab>
+      <at-carbon-tab>THE ITEM ELEVEN</at-carbon-tab>
+      <at-carbon-tab>TWELFTH ITEM</at-carbon-tab>
+
+    </at-carbon-tabs>
+
+    <h3>F. Link Tabs</h3>
+
+    <at-carbon-tabs selected="0">
+
+      <at-carbon-tab link><a href="#item1" class="horizontal center-center layout">ITEM ONE</a></at-carbon-tab>
+      <at-carbon-tab link><a href="#item2" class="horizontal center-center layout">ITEM TWO</a></at-carbon-tab>
+      <at-carbon-tab link><a href="#item3" class="horizontal center-center layout">ITEM THREE</a></at-carbon-tab>
+
+    </at-carbon-tabs>
+
+    <h3>G. Tabs in Toolbar</h3>
+
+    <core-toolbar class="tall">
+
+      <at-carbon-tabs selected="0" class="bottom self-end" style="width: 300px;">
+
+        <at-carbon-tab>ITEM ONE</at-carbon-tab>
+        <at-carbon-tab>ITEM TWO</at-carbon-tab>
+
+      </at-carbon-tabs>
+
+      <div class="bottom flex"></div>
+
+    </core-toolbar>
+
+    <h3>H. Tabs aligned to bottom</h3>
+
+    <at-carbon-tabs selected="0" alignBottom>
+
+      <at-carbon-tab>ITEM ONE</at-carbon-tab>
+      <at-carbon-tab>ITEM TWO</at-carbon-tab>
+      <at-carbon-tab>ITEM THREE</at-carbon-tab>
+
+    </at-carbon-tabs>
+
+  </body>
+</html>
