@@ -1,4 +1,5 @@
 <!--
+@license
 Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
 This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
 The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
@@ -24,7 +25,7 @@ Example:
 See <a href="#at-carbon-tab">at-carbon-tab</a> for more information about
 `at-carbon-tab`.
 
-A common usage for `at-carbon-tabs` is to use it along with `core-pages` to switch
+A common usage for `at-carbon-tabs` is to use it along with `iron-pages` to switch
 between different views.
 
     <at-carbon-tabs selected="{{selected}}">
@@ -33,11 +34,11 @@ between different views.
       <at-carbon-tab>Tab 3</at-carbon-tab>
     </at-carbon-tabs>
 
-    <core-pages selected="{{selected}}">
+    <iron-pages selected="{{selected}}">
       <div>Page 1</div>
       <div>Page 2</div>
       <div>Page 3</div>
-    </core-pages>
+    </iron-pages>
 
 
 To use links in tabs, add `link` attribute to `at-carbon-tab` and put an `<a>`
@@ -57,22 +58,18 @@ Example:
       </at-carbon-tab>
     </at-carbon-tabs>
 
-@group at-carbon Elements
+@group Paper Elements
 @element at-carbon-tabs
-@mixins Polymer.CoreResizable https://github.com/polymer/core-resizable
-@homepage github.io
 -->
 
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../layout/layout.html">
-<link rel="import" href="../layout/shadow-layout.html">
 
-<link rel="import" href="at-carbon-tabs-icons.html">
+<link rel="import" href="../iron-resizable-behavior/iron-resizable-behavior.html">
+<link rel="import" href="../iron-selector/iron-selector.html">
 
-<link rel="import" href="../core-icon/core-icon.html">
-<link rel="import" href="../core-resizable/core-resizable.html">
-<link rel="import" href="../core-selector/core-selector.html">
 <link rel="import" href="../at-core-theme/at-core-theme.html">
+<link rel="import" href="../at-carbon-icon/at-carbon-icon.html">
 
 <dom-module id="at-carbon-tabs">
 
@@ -95,33 +92,27 @@ Example:
       user-select: none;
       -webkit-tap-highlight-color: rgba(0,0,0,0);
     }
-
     #tabsContainer {
       position: relative;
       height: 100%;
       white-space: nowrap;
       overflow: hidden;
     }
-
     #tabsContent {
       height: 100%;
     }
-
     #tabsContent.scrollable {
       position: absolute;
       white-space: nowrap;
     }
-
     .scroll-button {
       width: 24px;
       padding: 16px;
     }
-
     .scroll-button > .hide {
       display: inline-block;
       opacity: 0;
     }
-
     #selectionBar {
       position: absolute;
       height: 2px;
@@ -136,22 +127,18 @@ Example:
       transition: -webkit-transform;
       transition: transform;
     }
-
     #selectionBar.align-bottom {
       top: 0;
       bottom: auto;
     }
-
     #selectionBar.expand {
       transition-duration: 0.15s;
       transition-timing-function: cubic-bezier(0.4, 0.0, 1, 1);
     }
-
     #selectionBar.contract {
       transition-duration: 0.18s;
       transition-timing-function: cubic-bezier(0.0, 0.0, 0.2, 1);
     }
-
     #tabsContent > ::content > *:not(#selectionBar) {
       height: 100%;
     }
@@ -160,29 +147,24 @@ Example:
 
   <template>
     <at-core-theme></at-core-theme>
-    <div class$="[[computeScrollButtonClass(scrollable, hideScrollButton)]]">
-      <core-icon icon="at-carbon-tabs:chevron-left" class$="[[computeIconClass(leftHidden)]]"
-          on-mousedown="onLeftScrollButtonDown" on-mouseup="onScrollButtonUp"></core-icon>
+    <div hidden$="[[_computeScrollButtonHidden(scrollable, hideScrollButton)]]">
+      <at-carbon-icon icon="caret-left" class$="[[_computeIconClass(leftHidden)]]" on-down="_onLeftScrollButtonDown" on-up="_onScrollButtonUp"></at-carbon-icon>
     </div>
 
-    <div id="tabsContainer" class="flex" on-scroll="scroll" on-trackstart="trackStart">
+    <div id="tabsContainer" class="flex" on-scroll="_scroll">
 
-      <core-selector id="tabsContent" class$="[[computeTabsContentClass(scrollable)]]"
-          selected="{{selected}}" selected-item="{{tab}}"
-          attr-for-selected="[[attrForSelected]]" selectable="at-carbon-tab">
+      <iron-selector id="tabsContent" class$="[[_computeTabsContentClass(scrollable)]]" selected="{{selected}}" selected-item="{{_tab}}" attr-for-selected="[[attrForSelected]]" selectable="at-carbon-tab">
 
         <content select="*"></content>
 
-        <div id="selectionBar" class$="[[computeSelectionBarClass(nobar, alignBottom)]]"
-            on-transitionend="onBarTransitionEnd"></div>
+        <div id="selectionBar" class$="[[_computeSelectionBarClass(nobar, alignBottom)]]" on-transitionend="_onBarTransitionEnd"></div>
 
-      </core-selector>
+      </iron-selector>
 
     </div>
 
-    <div class$="[[computeScrollButtonClass(scrollable, hideScrollButton)]]">
-      <core-icon icon="at-carbon-tabs:chevron-right" class$="[[computeIconClass(rightHidden)]]"
-          on-mousedown="onRightScrollButtonDown" on-mouseup="onScrollButtonUp"></core-icon>
+    <div hidden$="[[_computeScrollButtonHidden(scrollable, hideScrollButton)]]">
+      <at-carbon-icon icon="caret-right" class$="[[_computeIconClass(rightHidden)]]" on-down="_onRightScrollButtonDown" on-up="_onScrollButtonUp"></at-carbon-icon>
     </div>
 
   </template>
@@ -194,46 +176,12 @@ Example:
   Polymer({
 
     is: 'at-carbon-tabs',
-    _scopeCssViaAttr: true,
 
-    mixins: [
-      Polymer.Core.Resizable
+    behaviors: [
+      Polymer.IronResizableBehavior
     ],
 
     properties: {
-
-      /**
-       * If you want to use the attribute value of the tab element for `selected` instead of the
-       * index, set this to the name of the attribute.
-       *
-       * @attribute attrForSelected
-       * @type String
-       */
-      attrForSelected: String,
-
-      /**
-       * Gets or sets the selected tab. The default is to use the index of the tab.
-       *
-       * @attribute selected
-       * @type String
-       * @default undefined
-       */
-      selected: {
-        type: String,
-        notify: true
-      },
-
-      /**
-       * If true, ink ripple effect is disabled.
-       *
-       * @attribute noink
-       * @type Boolean
-       * @default false
-       */
-      noink: {
-        type: Boolean,
-        value: false
-      },
 
       /**
        * If true, the bottom bar to indicate the selected tab will not be shown.
@@ -307,57 +255,54 @@ Example:
         value: false
       },
 
-      step: {
+      /**
+       * Gets or sets the selected element. The default is to use the index of the item.
+       *
+       * @attribute selected
+       * @type {string}
+       */
+      selected: {
+        type: String,
+        notify: true
+      },
+
+      _step: {
         value: 10
       },
 
-      holdDelay: {
+      _holdDelay: {
         value: 1
       },
 
-      tab: {
-        observer: 'tabChanged'
+      _tab: {
+        observer: '_tabChanged'
       }
 
     },
 
     listeners: {
-      'core-resize': 'onResize'
-    },
-
-    ready: function() {
-      //this._trackxHandler = this.trackx.bind(this);
-      //Polymer.addEventListener(this.$.tabsContainer, 'trackx', this._trackxHandler);
-      //this._tabsObserver = new MutationObserver(this.onResize.bind(this));
-      //this._tabsObserver.observe(this, {childList: true, subtree: true, characterData: true});
-      this.onResize();
+      'iron-resize': '_onResize'
     },
 
     attached: function() {
-      this.resizableAttached();
+      this.notifyResize();
     },
 
-    detached: function() {
-      //Polymer.removeEventListener(this.$.tabsContainer, 'trackx', this._trackxHandler);
-      //this._tabsObserver.disconnect();
-      this.resizableDetached();
+    _computeScrollButtonHidden: function(scrollable, hideScrollButton) {
+      return !this.scrollable || this.hideScrollButton;
     },
 
-    computeScrollButtonClass: function(scrollable, hideScrollButton) {
-      return (!this.scrollable || this.hideScrollButton) ? 'hidden' : 'scroll-button';
-    },
-
-    computeIconClass: function(hidden) {
+    _computeIconClass: function(hidden) {
       if (hidden) {
         return 'hide';
       }
     },
 
-    computeTabsContentClass: function(scrollable) {
+    _computeTabsContentClass: function(scrollable) {
       return scrollable ? 'scrollable' : 'horizontal layout';
     },
 
-    computeSelectionBarClass: function(nobar, alignBottom) {
+    _computeSelectionBarClass: function(nobar, alignBottom) {
       if (nobar) {
         return 'hidden';
       } else if (alignBottom) {
@@ -365,108 +310,109 @@ Example:
       }
     },
 
-    trackStart: function(e) {
-      if (!this.scrollable || this.disableDrag) {
-        return;
-      }
-      var t = e.target;
-      if (t && t.cancelRipple) {
-        t.cancelRipple();
-      }
-      this._startx = this.$.tabsContainer.scrollLeft;
-      e.preventTap();
+    // TODO(cdata): Add `track` response back in when gesture lands.
+
+    _onResize: function() {
+      this.debounce('_onResize', function() {
+        this._scroll();
+        this._tabChanged(this._tab);
+      }, 10);
     },
 
-    trackx: function(e) {
-      if (!this.scrollable || this.disableDrag) {
-        return;
-      }
-      this.$.tabsContainer.scrollLeft = this._startx - e.dx;
+    get _tabContainerScrollSize () {
+      return Math.max(
+        0,
+        this.$.tabsContainer.scrollWidth -
+          this.$.tabsContainer.scrollHeight
+      );
     },
 
-    onResize: function() {
-      this.debounce('resizeJob', this.resizeHandler, 10);
-    },
+    _scroll: function() {
+      var scrollLeft;
 
-    resizeHandler: function() {
-      this.scroll();
-      this._tabEffector();
-    },
-
-    scroll: function() {
       if (!this.scrollable) {
         return;
       }
-      var tc = this.$.tabsContainer;
-      var l = tc.scrollLeft;
-      this.leftHidden = l === 0;
-      this.rightHidden = l === Math.max(0, (tc.scrollWidth - tc.clientWidth));
+
+      scrollLeft = this.$.tabsContainer.scrollLeft;
+
+      this.leftHidden = scrollLeft === 0;
+      this.rightHidden = scrollLeft === this._tabContainerScrollSize;
     },
 
-    onLeftScrollButtonDown: function() {
-      this._holdJob = setInterval(this.scrollToLeft.bind(this), this.holdDelay);
+    _onLeftScrollButtonDown: function() {
+      this._holdJob = setInterval(this._scrollToLeft.bind(this), this._holdDelay);
     },
 
-    onRightScrollButtonDown: function() {
-      this._holdJob = setInterval(this.scrollToRight.bind(this), this.holdDelay);
+    _onRightScrollButtonDown: function() {
+      this._holdJob = setInterval(this._scrollToRight.bind(this), this._holdDelay);
     },
 
-    onScrollButtonUp: function() {
+    _onScrollButtonUp: function() {
       clearInterval(this._holdJob);
       this._holdJob = null;
     },
 
-    scrollToLeft: function() {
-      this.$.tabsContainer.scrollLeft -= this.step;
+    _scrollToLeft: function() {
+      this.$.tabsContainer.scrollLeft -= this._step;
     },
 
-    scrollToRight: function() {
-      this.$.tabsContainer.scrollLeft += this.step;
+    _scrollToRight: function() {
+      this.$.tabsContainer.scrollLeft += this._step;
     },
 
-    tabChanged: function(tab, old) {
+    _tabChanged: function(tab) {
       if (!tab) {
-        this.positionBar(0, 0);
+//        this._positionBar(0, 0);
         return;
       }
-
+        
       var r = this.$.tabsContent.getBoundingClientRect();
       var w = r.width;
       var tabRect = tab.getBoundingClientRect();
       var tabOffsetLeft = tabRect.left - r.left;
 
       this._pos = {
-        width: this.calcPercent(tabRect.width, w),
-        left: this.calcPercent(tabOffsetLeft, w)
+        width: this._calcPercent(tabRect.width, w),
+        left: this._calcPercent(tabOffsetLeft, w)
       };
 
-      if (this.noslide || old == null) {
+      if(!this._old && !this.noslide)
+      {
+        this._old = tab;
+      } 
+        
+      if (this.noslide || this._old == null) {
         // position bar directly without animation
-        this.positionBar(this._pos.width, this._pos.left);
+        this._positionBar(this._pos.width, this._pos.left);
         return;
       }
 
-      var oldRect = old.getBoundingClientRect();
-      var oldIndex = this.$.tabsContent.indexOf(old);
+      var oldRect = this._old.getBoundingClientRect();
+      var oldIndex = this.$.tabsContent.indexOf(this._old);
       var index = this.$.tabsContent.indexOf(tab);
       var m = 5;
 
       // bar animation: expand
       this.$.selectionBar.classList.add('expand');
+
       if (oldIndex < index) {
-        this.positionBar(this.calcPercent(tabRect.left + tabRect.width - oldRect.left, w) - m,
-            this._left);
+        this._positionBar(this._calcPercent(tabRect.left + tabRect.width - oldRect.left, w) - m, this._left);
       } else {
-        this.positionBar(this.calcPercent(oldRect.left + oldRect.width - tabRect.left, w) - m,
-            this.calcPercent(tabOffsetLeft, w) + m);
+        this._positionBar(this._calcPercent(oldRect.left + oldRect.width - tabRect.left, w) - m, this._calcPercent(tabOffsetLeft, w) + m);
       }
 
       if (this.scrollable) {
-        this.scrollToSelectedIfNeeded(tabRect.width, tabOffsetLeft);
+        this._scrollToSelectedIfNeeded(tabRect.width, tabOffsetLeft);
       }
+        
+      if(!this.noslide)
+      {
+        this._old = tab;
+      } 
     },
 
-    scrollToSelectedIfNeeded: function(tabWidth, tabOffsetLeft) {
+    _scrollToSelectedIfNeeded: function(tabWidth, tabOffsetLeft) {
       var l = tabOffsetLeft - this.$.tabsContainer.scrollLeft;
       if (l < 0) {
         this.$.tabsContainer.scrollLeft += l;
@@ -478,24 +424,23 @@ Example:
       }
     },
 
-    calcPercent: function(w, w0) {
+    _calcPercent: function(w, w0) {
       return 100 * w / w0;
     },
 
-    positionBar: function(width, left) {
+    _positionBar: function(width, left) {
       this._width = width;
       this._left = left;
-      this.transform(this.$.selectionBar,
-          'translate3d(' + left + '%, 0, 0) scaleX(' + (width / 100) + ')');
+      this.transform('translate3d(' + left + '%, 0, 0) scaleX(' + (width / 100) + ')', this.$.selectionBar);
     },
 
-    onBarTransitionEnd: function(e) {
+    _onBarTransitionEnd: function(e) {
       var cl = this.$.selectionBar.classList;
       // bar animation: expand -> contract
       if (cl.contains('expand')) {
         cl.remove('expand');
         cl.add('contract');
-        this.positionBar(this._pos.width, this._pos.left);
+        this._positionBar(this._pos.width, this._pos.left);
       // bar animation done
       } else if (cl.contains('contract')) {
         cl.remove('contract');

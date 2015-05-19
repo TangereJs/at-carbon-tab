@@ -1,0 +1,8 @@
+{
+  "name": "at-carbon-tabs",
+  "version": "1.0.0.1",
+  "private": true,
+  "dependencies": {
+    "polymer": "Polymer/polymer#master"
+  }
+}
