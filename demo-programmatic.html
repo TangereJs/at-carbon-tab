@@ -1,0 +1,127 @@
+<!doctype html>
+<html>
+
+<head>
+
+  <title>at-carbon-tabs</title>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+
+  <script src="../webcomponentsjs/webcomponents-lite.js"></script>
+  <link rel="import" href="../layout/layout.html">
+  <link rel="import" href="../at-form-radio/at-form-radio.html">
+  <link rel="import" href="at-carbon-tabs.html">
+  <link rel="import" href="at-carbon-tab.html">
+
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 24px;
+      color: #333;
+    }
+
+    at-carbon-tabs,
+    iron-toolbar {
+      background-color: #00bcd4;
+      color: #fff;
+      box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    iron-toolbar at-carbon-tabs {
+      box-shadow: none;
+    }
+
+    at-carbon-tabs[nobar] at-carbon-tab.iron-selected {
+      color: #ffff8d;
+    }
+
+    at-carbon-tabs[alignBottom] {
+      box-shadow: 0px -2px 6px rgba(0, 0, 0, 0.15);
+    }
+
+    h3 {
+      font-size: 16px;
+      font-weight: 400;
+      padding-top: 20px;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .light-padding {
+        padding: 0 4px;
+    }
+
+    .tab-switch-control-wrapper {
+      margin-top: 10%;
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <div class="horizontal layout">
+    <div class="vertical layout flex-8 light-padding">
+      <h3>Demo where tabs are switched programmatically</h3>
+
+      <at-carbon-tabs id="programmaticTabs" attr-for-selected="data-name" selected="item-one">
+
+        <at-carbon-tab data-name="item-one">ITEM ONE</at-carbon-tab>
+        <at-carbon-tab data-name="item-two">ITEM TWO</at-carbon-tab>
+        <at-carbon-tab data-name="item-three">ITEM THREE</at-carbon-tab>
+
+      </at-carbon-tabs>
+
+      <div class="" id="tab-content-wrapper">
+        <div class="tab-content active" id="item-one">
+          <h4>This is ITEM ONE content </h4>
+        </div>
+        <div class="tab-content" id="item-two">
+          <h4>This is ITEM TWO content </h4>
+        </div>
+        <div class="tab-content" id="item-three">
+          <h4>This is ITEM THREE content </h4>
+        </div>
+      </div>
+    </div>
+    <div class="vertical layout flex-4 light-padding">
+      <div class="tab-switch-control-wrapper">
+        <h4>Use this control to switch tabs</h4>
+        <at-form-radio id="switchTabsRadio"></at-form-radio>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    document.addEventListener('WebComponentsReady', function(event) {
+      var programmaticTabs = document.getElementById('programmaticTabs');
+
+      programmaticTabs.addEventListener('selected-changed', function (event) {
+        var previousTab = event.detail.value.previousTab ? event.detail.value.previousTab : "previousTab not available";
+        var currentTab = event.detail.value.currentTab ? event.detail.value.currentTab : "currentTab not available";
+        console.log("(previousTab, currentTab) = ("+ previousTab +", "+ currentTab +")");
+      });
+
+      var switchTabsRadio = document.getElementById('switchTabsRadio');
+      switchTabsRadio.label = "Tab Switcher"
+      switchTabsRadio.valuelist = "item-one,item-two,item-three";
+      switchTabsRadio.addEventListener('value-changed', function (event) {
+        var selectedTab = event.detail.value;
+        console.log("Selected tab: " + selectedTab);
+
+        programmaticTabs.select(selectedTab);
+      });
+
+    });
+  </script>
+</body>
+
+</html>

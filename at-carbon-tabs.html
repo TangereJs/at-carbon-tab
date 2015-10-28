@@ -262,8 +262,8 @@ Example:
        * @type {string}
        */
       selected: {
-        type: String,
-        notify: true
+        type: String
+        //notify: true
       },
 
       _step: {
@@ -286,6 +286,21 @@ Example:
 
     attached: function() {
       this.notifyResize();
+    },
+
+    /**
+     * This function switches the current tab to the tab with tabId
+     */
+    select: function (tabId) {
+      var tabsContent = this.$.tabsContent;
+      var previousTab = tabsContent.selected;
+      tabsContent.select(tabId);
+      this.fire('selected-changed', {
+        value: {
+          currentTab: tabId,
+          previousTab: previousTab
+        }
+      });
     },
 
     _computeScrollButtonHidden: function(scrollable, hideScrollButton) {
@@ -366,7 +381,7 @@ Example:
 //        this._positionBar(0, 0);
         return;
       }
-        
+
       var r = this.$.tabsContent.getBoundingClientRect();
       var w = r.width;
       var tabRect = tab.getBoundingClientRect();
@@ -380,8 +395,8 @@ Example:
       if(!this._old && !this.noslide)
       {
         this._old = tab;
-      } 
-        
+      }
+
       if (this.noslide || this._old == null) {
         // position bar directly without animation
         this._positionBar(this._pos.width, this._pos.left);
@@ -405,11 +420,11 @@ Example:
       if (this.scrollable) {
         this._scrollToSelectedIfNeeded(tabRect.width, tabOffsetLeft);
       }
-        
+
       if(!this.noslide)
       {
         this._old = tab;
-      } 
+      }
     },
 
     _scrollToSelectedIfNeeded: function(tabWidth, tabOffsetLeft) {
