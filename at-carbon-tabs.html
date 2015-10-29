@@ -301,13 +301,15 @@ Example:
         var previousValue = self.selected;
         var nextValue = event.detail.value;
         self.selected =  nextValue;
-        if (!self._guardEvent) {
-          self.fire('selected-changed', {
-            value: {
-              currentTab: nextValue,
-              previousTab: previousValue
-            }
-          });
+        if (nextValue !== previousValue) {
+          if (!self._guardEvent) {
+            self.fire('selected-changed', {
+              value: {
+                currentTab: nextValue,
+                previousTab: previousValue
+              }
+            });
+          }          
         }
       });
     },
@@ -325,12 +327,14 @@ Example:
       this._guardEvent = true;
       tabsContent.select(tabId);
       this._guardEvent = false;
-      this.fire('selected-changed', {
-        value: {
-          currentTab: tabId,
-          previousTab: previousTab
-        }
-      });
+      if (tabId !== previousTab) {
+        this.fire('selected-changed', {
+          value: {
+            currentTab: tabId,
+            previousTab: previousTab
+          }
+        });
+      }
     },
 
     _computeScrollButtonHidden: function(scrollable, hideScrollButton) {
