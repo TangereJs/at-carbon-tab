@@ -74,7 +74,6 @@ Example:
 <dom-module id="at-carbon-tabs">
 
   <style>
-
     :host {
       display: -ms-flexbox;
       display: -webkit-flex;
@@ -90,29 +89,35 @@ Example:
       -moz-user-select: none;
       -ms-user-select: none;
       user-select: none;
-      -webkit-tap-highlight-color: rgba(0,0,0,0);
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     }
+
     #tabsContainer {
       position: relative;
       height: 100%;
       white-space: nowrap;
       overflow: hidden;
     }
+
     #tabsContent {
       height: 100%;
     }
+
     #tabsContent.scrollable {
       position: absolute;
       white-space: nowrap;
     }
+
     .scroll-button {
       width: 24px;
       padding: 16px;
     }
+
     .scroll-button > .hide {
       display: inline-block;
       opacity: 0;
     }
+
     #selectionBar {
       position: absolute;
       height: 2px;
@@ -127,22 +132,25 @@ Example:
       transition: -webkit-transform;
       transition: transform;
     }
+
     #selectionBar.align-bottom {
       top: 0;
       bottom: auto;
     }
+
     #selectionBar.expand {
       transition-duration: 0.15s;
       transition-timing-function: cubic-bezier(0.4, 0.0, 1, 1);
     }
+
     #selectionBar.contract {
       transition-duration: 0.18s;
       transition-timing-function: cubic-bezier(0.0, 0.0, 0.2, 1);
     }
-    #tabsContent > ::content > *:not(#selectionBar) {
+
+    #tabsContent >::content > *:not(#selectionBar) {
       height: 100%;
     }
-
   </style>
 
   <template>
@@ -153,7 +161,7 @@ Example:
 
     <div id="tabsContainer" class="flex" on-scroll="_scroll">
 
-      <iron-selector id="tabsContent" class$="[[_computeTabsContentClass(scrollable)]]" selected="{{selected}}" selected-item="{{_tab}}" attr-for-selected="[[attrForSelected]]" selectable="at-carbon-tab">
+      <iron-selector id="tabsContent" class$="[[_computeTabsContentClass(scrollable)]]" selected="[[selected]]" selected-item="{{_tab}}" attr-for-selected="[[attrForSelected]]" selectable="at-carbon-tab">
 
         <content select="*"></content>
 
@@ -172,7 +180,6 @@ Example:
 </dom-module>
 
 <script>
-
   Polymer({
 
     is: 'at-carbon-tabs',
@@ -263,7 +270,7 @@ Example:
        */
       selected: {
         type: String
-        //notify: true
+          //notify: true
       },
 
       _step: {
@@ -284,6 +291,27 @@ Example:
       'iron-resize': '_onResize'
     },
 
+    _guardEvent: false,
+
+    ready: function() {
+      var tabsContent = this.$.tabsContent;
+      var self = this;
+      tabsContent.addEventListener('selected-changed', function(event) {
+        event.stopPropagation();
+        var previousValue = self.selected;
+        var nextValue = event.detail.value;
+        self.selected =  nextValue;
+        if (!self._guardEvent) {
+          self.fire('selected-changed', {
+            value: {
+              currentTab: nextValue,
+              previousTab: previousValue
+            }
+          });
+        }
+      });
+    },
+
     attached: function() {
       this.notifyResize();
     },
@@ -291,10 +319,12 @@ Example:
     /**
      * This function switches the current tab to the tab with tabId
      */
-    select: function (tabId) {
+    select: function(tabId) {
       var tabsContent = this.$.tabsContent;
       var previousTab = tabsContent.selected;
+      this._guardEvent = true;
       tabsContent.select(tabId);
+      this._guardEvent = false;
       this.fire('selected-changed', {
         value: {
           currentTab: tabId,
@@ -334,11 +364,11 @@ Example:
       }, 10);
     },
 
-    get _tabContainerScrollSize () {
+    get _tabContainerScrollSize() {
       return Math.max(
         0,
         this.$.tabsContainer.scrollWidth -
-          this.$.tabsContainer.scrollHeight
+        this.$.tabsContainer.scrollHeight
       );
     },
 
@@ -378,7 +408,7 @@ Example:
 
     _tabChanged: function(tab) {
       if (!tab) {
-//        this._positionBar(0, 0);
+        //        this._positionBar(0, 0);
         return;
       }
 
@@ -392,8 +422,7 @@ Example:
         left: this._calcPercent(tabOffsetLeft, w)
       };
 
-      if(!this._old && !this.noslide)
-      {
+      if (!this._old && !this.noslide) {
         this._old = tab;
       }
 
@@ -421,8 +450,7 @@ Example:
         this._scrollToSelectedIfNeeded(tabRect.width, tabOffsetLeft);
       }
 
-      if(!this.noslide)
-      {
+      if (!this.noslide) {
         this._old = tab;
       }
     },
@@ -456,12 +484,11 @@ Example:
         cl.remove('expand');
         cl.add('contract');
         this._positionBar(this._pos.width, this._pos.left);
-      // bar animation done
+        // bar animation done
       } else if (cl.contains('contract')) {
         cl.remove('contract');
       }
     }
 
   });
-
 </script>

@@ -107,7 +107,12 @@
       programmaticTabs.addEventListener('selected-changed', function (event) {
         var previousTab = event.detail.value.previousTab ? event.detail.value.previousTab : "previousTab not available";
         var currentTab = event.detail.value.currentTab ? event.detail.value.currentTab : "currentTab not available";
-        console.log("(previousTab, currentTab) = ("+ previousTab +", "+ currentTab +")");
+        // console.log("(previousTab, currentTab) = ("+ previousTab +", "+ currentTab +")");
+
+        var pt = document.getElementById(previousTab);
+        Polymer.dom(pt).classList.remove('active');
+        var ct = document.getElementById(currentTab);
+        Polymer.dom(ct).classList.add('active');
       });
 
       var switchTabsRadio = document.getElementById('switchTabsRadio');
@@ -115,7 +120,7 @@
       switchTabsRadio.valuelist = "item-one,item-two,item-three";
       switchTabsRadio.addEventListener('value-changed', function (event) {
         var selectedTab = event.detail.value;
-        console.log("Selected tab: " + selectedTab);
+        // console.log("Selected tab: " + selectedTab);
 
         programmaticTabs.select(selectedTab);
       });
