@@ -71,6 +71,8 @@ Example:
 <link rel="import" href="../at-core-theme/at-core-theme.html">
 <link rel="import" href="../at-carbon-icon/at-carbon-icon.html">
 
+<link rel="import" href="../at-core-resize-sensor/at-core-resize-sensor.html">
+
 <dom-module id="at-carbon-tabs">
 
   <style>
@@ -92,13 +94,6 @@ Example:
       -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     }
 
-    #tabsContainer {
-      position: relative;
-      height: 100%;
-      white-space: nowrap;
-      overflow: hidden;
-    }
-
     #tabsContent {
       height: 100%;
     }
@@ -106,16 +101,6 @@ Example:
     #tabsContent.scrollable {
       position: absolute;
       white-space: nowrap;
-    }
-
-    .scroll-button {
-      width: 24px;
-      padding: 16px;
-    }
-
-    .scroll-button > .hide {
-      display: inline-block;
-      opacity: 0;
     }
 
     #selectionBar {
@@ -151,28 +136,79 @@ Example:
     #tabsContent >::content > *:not(#selectionBar) {
       height: 100%;
     }
+
+    .wrapper {
+      position: relative;
+      width: 100%;
+    }
+
+    .clear-float {
+      clear: both;
+    }
+
+    .scroll-button-container {
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .scroll-button-container.left {
+      left: 0;
+    }
+
+    .scroll-button-container.right {
+      right: 0;
+    }
+
+    .scroll-button-container > .scroll-button {}
+
+    .scroll-button-container > .scroll-button.hide {
+      display: none;
+      opacity: 0;
+    }
+
+    .content-wrapper {
+      position: relative;
+      width: 100%;
+    }
+
+    #tabsContainer {
+      position: relative;
+      height: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      margin: 0 24px;
+    }
   </style>
 
   <template>
     <at-core-theme></at-core-theme>
-    <div hidden$="[[_computeScrollButtonHidden(scrollable, hideScrollButton)]]">
-      <at-carbon-icon icon="caret-left" class$="[[_computeIconClass(leftHidden)]]" on-down="_onLeftScrollButtonDown" on-up="_onScrollButtonUp"></at-carbon-icon>
-    </div>
+    <div class="wrapper">
+      <at-core-resize-sensor id="resizeSensor"></at-core-resize-sensor>
+      <div class="clear-float"></div>
+      <div id="contentWrapper" class="content-wrapper">
+        <div id="leftScrollButton" hidden$="[[_computeScrollButtonHidden(scrollable, hideScrollButton)]]" class="scroll-button-container left">
+          <at-carbon-icon icon="caret-left" class$="[[_computeIconClass(leftHidden)]] scroll-button" on-down="_onLeftScrollButtonDown" on-up="_onScrollButtonUp"></at-carbon-icon>
+        </div>
 
-    <div id="tabsContainer" class="flex" on-scroll="_scroll">
+        <div id="tabsContainer" class="flex" on-scroll="_scroll">
 
-      <iron-selector id="tabsContent" class$="[[_computeTabsContentClass(scrollable)]]" selected="[[selected]]" selected-item="{{_tab}}" attr-for-selected="[[attrForSelected]]" selectable="at-carbon-tab">
+          <iron-selector id="tabsContent" class$="[[_computeTabsContentClass(scrollable)]]" selected="[[selected]]" selected-item="{{_tab}}" attr-for-selected="[[attrForSelected]]" selectable="at-carbon-tab">
 
-        <content select="*"></content>
+            <content select="*"></content>
 
-        <div id="selectionBar" class$="[[_computeSelectionBarClass(nobar, alignBottom)]]" on-transitionend="_onBarTransitionEnd"></div>
+            <div id="selectionBar" class$="[[_computeSelectionBarClass(nobar, alignBottom)]] scroll-button" on-transitionend="_onBarTransitionEnd"></div>
 
-      </iron-selector>
+          </iron-selector>
 
-    </div>
+        </div>
 
-    <div hidden$="[[_computeScrollButtonHidden(scrollable, hideScrollButton)]]">
-      <at-carbon-icon icon="caret-right" class$="[[_computeIconClass(rightHidden)]]" on-down="_onRightScrollButtonDown" on-up="_onScrollButtonUp"></at-carbon-icon>
+        <div id="rightScrollButton" hidden$="[[_computeScrollButtonHidden(scrollable, hideScrollButton)]]" class="scroll-button-container right">
+          <at-carbon-icon icon="caret-right" class$="[[_computeIconClass(rightHidden)]] scroll-button" on-down="_onRightScrollButtonDown" on-up="_onScrollButtonUp"></at-carbon-icon>
+        </div>
+      </div>
     </div>
 
   </template>
@@ -292,15 +328,14 @@ Example:
     },
 
     _guardEvent: false,
-
+    _scopeCssViaAttr: true,
     ready: function() {
       var tabsContent = this.$.tabsContent;
-      var self = this;
       tabsContent.addEventListener('selected-changed', function(event) {
         event.stopPropagation();
         var previousValue = self.selected;
         var nextValue = event.detail.value;
-        self.selected =  nextValue;
+        self.selected = nextValue;
         if (nextValue !== previousValue) {
           if (!self._guardEvent) {
             self.fire('selected-changed', {
@@ -309,13 +344,23 @@ Example:
                 previousTab: previousValue
               }
             });
-          }          
+          }
         }
       });
     },
 
     attached: function() {
       this.notifyResize();
+      var self = this;
+      var resizeSensor = this.$.resizeSensor;
+      var tabsContainer = this.$.tabsContainer;
+      var rightButtonWidth = this.$.rightScrollButton.getBoundingClientRect().width;
+      resizeSensor.reset();
+      resizeSensor.addEventListener('resize-sensed', function (event) {
+        var tcWidth = tabsContainer.scrollWidth;
+        var carbonTabsWidth = self.scrollWidth - rightButtonWidth;
+        self.rightHidden = carbonTabsWidth > tcWidth;
+      });
     },
 
     /**
@@ -384,9 +429,11 @@ Example:
       }
 
       scrollLeft = this.$.tabsContainer.scrollLeft;
-
+      var tabContainerScrollSize = this._tabContainerScrollSize;
+      var width = this.$.tabsContainer.getBoundingClientRect().width;
+      var scrollWidth = this.$.tabsContainer.scrollWidth;
       this.leftHidden = scrollLeft === 0;
-      this.rightHidden = scrollLeft === this._tabContainerScrollSize;
+      this.rightHidden = Math.ceil(scrollLeft+width) === Math.ceil(scrollWidth);
     },
 
     _onLeftScrollButtonDown: function() {
