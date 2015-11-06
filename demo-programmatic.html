@@ -22,23 +22,10 @@
       color: #333;
     }
 
-    at-carbon-tabs,
-    iron-toolbar {
+    at-carbon-tabs {
       background-color: #00bcd4;
       color: #fff;
       box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
-    }
-
-    iron-toolbar at-carbon-tabs {
-      box-shadow: none;
-    }
-
-    at-carbon-tabs[nobar] at-carbon-tab.iron-selected {
-      color: #ffff8d;
-    }
-
-    at-carbon-tabs[alignBottom] {
-      box-shadow: 0px -2px 6px rgba(0, 0, 0, 0.15);
     }
 
     h3 {
@@ -104,7 +91,7 @@
     document.addEventListener('WebComponentsReady', function(event) {
       var programmaticTabs = document.getElementById('programmaticTabs');
 
-      programmaticTabs.addEventListener('selected-changed', function (event) {
+      programmaticTabs.addEventListener('tab-changed', function (event) {
         var previousTab = event.detail.value.previousTab ? event.detail.value.previousTab : "previousTab not available";
         var currentTab = event.detail.value.currentTab ? event.detail.value.currentTab : "currentTab not available";
         // console.log("(previousTab, currentTab) = ("+ previousTab +", "+ currentTab +")");
@@ -122,9 +109,12 @@
         var selectedTab = event.detail.value;
         // console.log("Selected tab: " + selectedTab);
 
-        programmaticTabs.select(selectedTab);
+        programmaticTabs.selected = selectedTab;
       });
 
+      programmaticTabs.addEventListener('selected-changed', function(event){
+        switchTabsRadio.value = event.detail.value;
+      });
     });
   </script>
 </body>

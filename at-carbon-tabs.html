@@ -197,7 +197,7 @@ Example:
 
         <div id="tabsContainer" class="flex" on-scroll="_scroll">
 
-          <iron-selector id="tabsContent" class$="[[_computeTabsContentClass(scrollable)]]" selected="[[selected]]" selected-item="{{_tab}}" attr-for-selected="[[attrForSelected]]" selectable="at-carbon-tab">
+          <iron-selector id="tabsContent" class$="[[_computeTabsContentClass(scrollable)]]" selected="{{selected}}" selected-item="{{_tab}}" attr-for-selected="[[attrForSelected]]" selectable="at-carbon-tab">
 
             <content select="*"></content>
 
@@ -307,8 +307,9 @@ Example:
        * @type {string}
        */
       selected: {
-        type: String
-          //notify: true
+        type: String,
+        notify: true,
+        observer: 'selectedChanged'
       },
 
       _step: {
@@ -329,29 +330,7 @@ Example:
       'iron-resize': '_onResize'
     },
 
-    _guardEvent: false,
     _scopeCssViaAttr: true,
-    ready: function() {
-      var tabsContent = this.$.tabsContent;
-      var self = this;
-      tabsContent.addEventListener('selected-changed', function(event) {
-        event.stopPropagation();
-        var previousValue = self.selected;
-        var nextValue = event.detail.value;
-        self.selected = nextValue;
-        if (nextValue !== previousValue) {
-          if (!self._guardEvent) {
-            self.fire('selected-changed', {
-              value: {
-                currentTab: nextValue,
-                previousTab: previousValue
-              }
-            });
-          }
-        }
-      });
-    },
-
     attached: function() {
       this.notifyResize();
       var self = this;
@@ -359,7 +338,7 @@ Example:
       var tabsContainer = this.$.tabsContainer;
       var rightButtonWidth = this.$.rightScrollButton.getBoundingClientRect().width;
       resizeSensor.reset();
-      resizeSensor.addEventListener('resize-sensed', function (event) {
+      resizeSensor.addEventListener('resize-sensed', function(event) {
         var tcWidth = tabsContainer.scrollWidth;
         var carbonTabsWidth = self.scrollWidth - rightButtonWidth;
         self.rightHidden = carbonTabsWidth > tcWidth;
@@ -369,20 +348,13 @@ Example:
     /**
      * This function switches the current tab to the tab with tabId
      */
-    select: function(tabId) {
-      var tabsContent = this.$.tabsContent;
-      var previousTab = tabsContent.selected;
-      this._guardEvent = true;
-      tabsContent.select(tabId);
-      this._guardEvent = false;
-      if (tabId !== previousTab) {
-        this.fire('selected-changed', {
-          value: {
-            currentTab: tabId,
-            previousTab: previousTab
-          }
-        });
-      }
+    selectedChanged: function(newValue, oldValue) {
+      this.fire('tab-changed', {
+        value: {
+          currentTab: newValue,
+          previousTab: oldValue
+        }
+      });
     },
 
     _computeScrollButtonHidden: function(scrollable, hideScrollButton) {
@@ -436,7 +408,7 @@ Example:
       var width = this.$.tabsContainer.getBoundingClientRect().width;
       var scrollWidth = this.$.tabsContainer.scrollWidth;
       this.leftHidden = scrollLeft === 0;
-      this.rightHidden = Math.ceil(scrollLeft+width) === Math.ceil(scrollWidth);
+      this.rightHidden = Math.ceil(scrollLeft + width) === Math.ceil(scrollWidth);
     },
 
     _onLeftScrollButtonDown: function() {
