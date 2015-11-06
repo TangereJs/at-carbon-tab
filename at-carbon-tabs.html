@@ -331,6 +331,7 @@ Example:
     _scopeCssViaAttr: true,
     ready: function() {
       var tabsContent = this.$.tabsContent;
+      var self = this;
       tabsContent.addEventListener('selected-changed', function(event) {
         event.stopPropagation();
         var previousValue = self.selected;
