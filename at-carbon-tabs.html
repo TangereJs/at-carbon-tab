@@ -409,7 +409,7 @@ Example:
       var width = this.$.tabsContainer.getBoundingClientRect().width;
       var scrollWidth = this.$.tabsContainer.scrollWidth;
       this.leftHidden = scrollLeft === 0;
-      this.rightHidden = Math.ceil(scrollLeft + width) === Math.ceil(scrollWidth);
+      this.rightHidden = Math.ceil(scrollLeft + width) >= Math.floor(scrollWidth);
     },
 
     _onLeftScrollButtonDown: function() {
