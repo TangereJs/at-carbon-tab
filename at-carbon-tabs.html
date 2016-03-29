@@ -180,14 +180,14 @@ Example:
 
   <template>
     <style>
-      at-carbon-icon {       
+      at-carbon-icon {
         margin-top: 4px;
         width: var(--at-inline-icon-size);
         height: var(--at-inline-icon-size);
       }
     </style>
-    <at-core-theme></at-core-theme> 
-    
+    <at-core-theme></at-core-theme>
+
     <div class="wrapper">
       <at-core-resize-sensor id="resizeSensor"></at-core-resize-sensor>
       <div class="clear-float"></div>
@@ -337,9 +337,9 @@ Example:
       var self = this;
       var resizeSensor = this.$.resizeSensor;
       var tabsContainer = this.$.tabsContainer;
-      var rightButtonWidth = this.$.rightScrollButton.getBoundingClientRect().width;
       resizeSensor.reset();
       resizeSensor.addEventListener('resize-sensed', function(event) {
+        var rightButtonWidth = self.$.rightScrollButton.getBoundingClientRect().width;
         var tcWidth = tabsContainer.scrollWidth;
         var carbonTabsWidth = self.scrollWidth - rightButtonWidth;
         self.rightHidden = carbonTabsWidth > tcWidth;
