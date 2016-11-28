@@ -468,14 +468,10 @@ Example:
       // bar animation: expand
       this.$.selectionBar.classList.add('expand');
 
-      if (w > 0) {
-        if (oldIndex < index) {
-          this._positionBar(this._calcPercent(tabRect.left + tabRect.width - oldRect.left, w) - m, this._left);
-        } else {
-          this._positionBar(this._calcPercent(oldRect.left + oldRect.width - tabRect.left, w) - m, this._calcPercent(tabOffsetLeft, w) + m);
-        }
+      if (oldIndex < index) {
+        this._positionBar(this._calcPercent(tabRect.left + tabRect.width - oldRect.left, w) - m, this._left);
       } else {
-        this._positionBar(50, 0);
+        this._positionBar(this._calcPercent(oldRect.left + oldRect.width - tabRect.left, w) - m, this._calcPercent(tabOffsetLeft, w) + m);
       }
 
       if (this.scrollable) {
