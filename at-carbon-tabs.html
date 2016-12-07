@@ -331,7 +331,6 @@ Example:
       'iron-resize': '_onResize'
     },
 
-    _scopeCssViaAttr: true,
     attached: function() {
       this.notifyResize();
       var self = this;
@@ -345,6 +344,36 @@ Example:
         self.rightHidden = carbonTabsWidth > tcWidth;
       });
       this._scroll();
+
+      /*
+        Following code block makes sure that selected tab is underlined
+        requestAnimationFrame function is used to run the step function until desired result is produced
+        each 500 ms (rougly) we check if _tab (selected tab) has dimensions. We do this by getting
+        _tab's bounding client rect and inspect width and height
+        If both are greater than zero we know tab has dimentions and we can underline it
+        If any is 0 we run step function again
+       */
+      var start = null;
+      var renderSelectedTab = null;
+
+      function step(timestamp) {
+        if(!start) { start = timestamp; }
+        var progress = timestamp - start;
+        if (progress > 500) {
+          start = timestamp;
+          var tabRect = self._tab.getBoundingClientRect();
+          if (tabRect.height > 0 && tabRect.width > 0) {
+            self._tabChanged(self._tab);
+          } else {
+            renderSelectedTab = window.requestAnimationFrame(step);
+          }
+        } else {
+          renderSelectedTab = window.requestAnimationFrame(step);
+        }
+      }
+
+      renderSelectedTab = window.requestAnimationFrame(step);
+
     },
 
     /**

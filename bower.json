@@ -1,9 +1,9 @@
 {
   "name": "at-carbon-tabs",
-  "version": "1.0.0.98",
+  "version": "1.0.0.135",
   "private": true,
   "dependencies": {
     "polymer": "Polymer/polymer#master",
-    "at-core-resize-sensor": "TangereJs/at-core-resize-sensor#0.8-preview"    
+    "at-core-resize-sensor": "TangereJs/at-core-resize-sensor#0.8-preview"
   }
 }
