@@ -1,193 +1,133 @@
-<!--
-`at-carbon-tabs` makes it easy to explore and switch between different views or functional aspects of
-an app, or to browse categorized data sets.
-
-Use `selected` property to get or set the selected tab.
-
-Example:
-
-    <at-carbon-tabs selected="0">
-      <at-carbon-tab>TAB 1</at-carbon-tab>
-      <at-carbon-tab>TAB 2</at-carbon-tab>
-      <at-carbon-tab>TAB 3</at-carbon-tab>
-    </at-carbon-tabs>
-
-See <a href="#at-carbon-tab">at-carbon-tab</a> for more information about
-`at-carbon-tab`.
-
-A common usage for `at-carbon-tabs` is to use it along with `iron-pages` to switch
-between different views.
-
-    <at-carbon-tabs selected="{{selected}}">
-      <at-carbon-tab>Tab 1</at-carbon-tab>
-      <at-carbon-tab>Tab 2</at-carbon-tab>
-      <at-carbon-tab>Tab 3</at-carbon-tab>
-    </at-carbon-tabs>
-
-    <iron-pages selected="{{selected}}">
-      <div>Page 1</div>
-      <div>Page 2</div>
-      <div>Page 3</div>
-    </iron-pages>
-
-
-To use links in tabs, add `link` attribute to `at-carbon-tab` and put an `<a>`
-element in `at-carbon-tab`.
-
-Example:
-
-    <at-carbon-tabs selected="0">
-      <at-carbon-tab link>
-        <a href="#link1" class="horizontal center-center layout">TAB ONE</a>
-      </at-carbon-tab>
-      <at-carbon-tab link>
-        <a href="#link2" class="horizontal center-center layout">TAB TWO</a>
-      </at-carbon-tab>
-      <at-carbon-tab link>
-        <a href="#link3" class="horizontal center-center layout">TAB THREE</a>
-      </at-carbon-tab>
-    </at-carbon-tabs>
-
-@group Paper Elements
-@element at-carbon-tabs
--->
-
 <link rel="import" href="../tangere/tangere.html">
 <link rel="import" href="../layout/layout.html">
 
 <link rel="import" href="../iron-resizable-behavior/iron-resizable-behavior.html">
 <link rel="import" href="../iron-selector/iron-selector.html">
 
-<link rel="import" href="../at-core-theme/at-core-theme.html">
 <link rel="import" href="../at-theme/at-theme.html">
 <link rel="import" href="../at-carbon-icon/at-carbon-icon.html">
 
 <link rel="import" href="../at-core-resize-sensor/at-core-resize-sensor.html">
 
 <dom-module id="at-carbon-tabs">
-
-  <style>
-    :host {
-      display: -ms-flexbox;
-      display: -webkit-flex;
-      display: flex;
-      -ms-flex-align: center;
-      -webkit-align-items: center;
-      align-items: center;
-      height: 48px;
-      font-size: 14px;
-      font-weight: 500;
-      overflow: hidden;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-    }
-
-    #tabsContent {
-      height: 100%;
-    }
-
-    #tabsContent.scrollable {
-      position: absolute;
-      white-space: nowrap;
-    }
-
-    #selectionBar {
-      position: absolute;
-      height: 2px;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background-color: #03a9f4;
-      -webkit-transform-origin: left center;
-      transform-origin: left center;
-      -webkit-transform: scale(0);
-      transform: scale(0);
-      transition: -webkit-transform;
-      transition: transform;
-    }
-
-    #selectionBar.align-bottom {
-      top: 0;
-      bottom: auto;
-    }
-
-    #selectionBar.expand {
-      transition-duration: 0.15s;
-      transition-timing-function: cubic-bezier(0.4, 0.0, 1, 1);
-    }
-
-    #selectionBar.contract {
-      transition-duration: 0.18s;
-      transition-timing-function: cubic-bezier(0.0, 0.0, 0.2, 1);
-    }
-
-    #tabsContent >::content > *:not(#selectionBar) {
-      height: 100%;
-    }
-
-    .wrapper {
-      position: relative;
-      width: 100%;
-      height: 100%;
-    }
-
-    .clear-float {
-      clear: both;
-    }
-
-    .scroll-button-container {
-      position: absolute;
-      width: 24px;
-      height: 24px;
-      top: 50%;
-      transform: translateY(-50%);
-    }
-
-    .scroll-button-container.left {
-      left: 0;
-    }
-
-    .scroll-button-container.right {
-      right: 0;
-    }
-
-    .scroll-button-container > .scroll-button {
-      cursor: pointer;
-    }
-
-    .scroll-button-container > .scroll-button.hide {
-      display: none;
-      opacity: 0;
-    }
-
-    .content-wrapper {
-      position: relative;
-      width: 100%;
-      height: 100%;
-    }
-
-    #tabsContainer {
-      position: relative;
-      height: 100%;
-      white-space: nowrap;
-      overflow: hidden;
-      margin: 0 24px;
-    }
-  </style>
-
   <template>
     <style>
+      :host {
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+        height: 48px;
+        font-size: 14px;
+        font-weight: 500;
+        overflow: hidden;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+      }
+
+      #tabsContent {
+        height: 100%;
+      }
+
+      #tabsContent.scrollable {
+        position: absolute;
+        white-space: nowrap;
+      }
+
+      #selectionBar {
+        position: absolute;
+        height: 2px;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: #03a9f4;
+        -webkit-transform-origin: left center;
+        transform-origin: left center;
+        -webkit-transform: scale(0);
+        transform: scale(0);
+        transition: -webkit-transform;
+        transition: transform;
+      }
+
+      #selectionBar.align-bottom {
+        top: 0;
+        bottom: auto;
+      }
+
+      #selectionBar.expand {
+        transition-duration: 0.15s;
+        transition-timing-function: cubic-bezier(0.4, 0.0, 1, 1);
+      }
+
+      #selectionBar.contract {
+        transition-duration: 0.18s;
+        transition-timing-function: cubic-bezier(0.0, 0.0, 0.2, 1);
+      }
+
+      #tabsContent >::content > *:not(#selectionBar) {
+        height: 100%;
+      }
+
+      .wrapper {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+
+      .clear-float {
+        clear: both;
+      }
+
+      .scroll-button-container {
+        position: absolute;
+        width: 24px;
+        height: 24px;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+
+      .scroll-button-container.left {
+        left: 0;
+      }
+
+      .scroll-button-container.right {
+        right: 0;
+      }
+
+      .scroll-button-container > .scroll-button {
+        cursor: pointer;
+      }
+
+      .scroll-button-container > .scroll-button.hide {
+        display: none;
+        opacity: 0;
+      }
+
+      .content-wrapper {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+
+      #tabsContainer {
+        position: relative;
+        height: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        margin: 0 24px;
+      }
+
       at-carbon-icon {
         margin-top: 4px;
         width: var(--at-inline-icon-size);
         height: var(--at-inline-icon-size);
       }
     </style>
-    <at-core-theme></at-core-theme>
-
     <div class="wrapper">
       <at-core-resize-sensor id="resizeSensor"></at-core-resize-sensor>
       <div class="clear-float"></div>
@@ -357,9 +297,11 @@ Example:
       var renderSelectedTab = null;
 
       function step(timestamp) {
-        if(!start) { start = timestamp; }
+        if (!start) {
+          start = timestamp;
+        }
         var progress = timestamp - start;
-        if (progress > 500) {
+        if (progress > 500 && self._tab) {
           start = timestamp;
           var tabRect = self._tab.getBoundingClientRect();
           if (tabRect.height > 0 && tabRect.width > 0) {
