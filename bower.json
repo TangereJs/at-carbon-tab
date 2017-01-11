@@ -10,7 +10,6 @@
     "at-carbon-icon": "TangereJs/at-carbon-icon#master",
     "layout": "PolymerElements/layout#master",
     "iron-resizable-behavior": "PolymerElements/iron-resizable-behavior#master",
-    "iron-selector": "PolymerElements/iron-selector#master",
-
+    "iron-selector": "PolymerElements/iron-selector#master"
   }
 }
