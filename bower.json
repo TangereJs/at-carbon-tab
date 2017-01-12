@@ -7,8 +7,7 @@
     "at-core-resize-sensor": "TangereJs/at-core-resize-sensor#master",
     "at-form-radio": "TangereJs/at-form-radio#master",
     "at-theme": "TangereJs/at-theme#master",
-    "at-carbon-icon": "TangereJs/at-carbon-icon#master",
-    "layout": "PolymerElements/layout#master",
+    "at-carbon-icon": "TangereJs/at-carbon-icon#master",    
     "iron-resizable-behavior": "PolymerElements/iron-resizable-behavior#master",
     "iron-selector": "PolymerElements/iron-selector#master"
   }
