@@ -286,36 +286,28 @@
       this._scroll();
 
       /*
-        Following code block makes sure that selected tab is underlined
-        requestAnimationFrame function is used to run the step function until desired result is produced
-        each 500 ms (rougly) we check if _tab (selected tab) has dimensions. We do this by getting
-        _tab's bounding client rect and inspect width and height
-        If both are greater than zero we know tab has dimentions and we can underline it
-        If any is 0 we run step function again
-       */
-      var start = null;
-      var renderSelectedTab = null;
+        Update. setInterval is now used instead of requestAnimationFrame
+        renderSelectedTab function is used to paint tab as selected
+        each 100ms we inspect whether currently selected tab has dimensions
+        if it has we clearInterval and paint tab as selected
+        else we wait 100ms
 
-      function step(timestamp) {
-        if (!start) {
-          start = timestamp;
-        }
-        var progress = timestamp - start;
-        if (progress > 500 && self._tab) {
-          start = timestamp;
-          var tabRect = self._tab.getBoundingClientRect();
-          if (tabRect.height > 0 && tabRect.width > 0) {
-            self._tabChanged(self._tab);
-          } else {
-            renderSelectedTab = window.requestAnimationFrame(step);
-          }
-        } else {
-          renderSelectedTab = window.requestAnimationFrame(step);
+        we call renderSelectedTab right after setInterval to cover the case when
+        tab already has dimensions. We paint it and clearInterval immediately
+       */
+      var renderSelectedTabInterval;
+
+      function renderSelectedTab() {
+        if (!self._tab) { return; }
+        var tabRect = self._tab.getBoundingClientRect();
+        if (tabRect.height > 0 && tabRect.width > 0) {
+          clearInterval(renderSelectedTabInterval);
+          self._tabChanged(self._tab);
         }
       }
 
-      renderSelectedTab = window.requestAnimationFrame(step);
-
+      renderSelectedTabInterval = setInterval(renderSelectedTab, 100);
+      renderSelectedTab();
     },
 
     /**
