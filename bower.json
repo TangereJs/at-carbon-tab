@@ -1,6 +1,6 @@
 {
   "name": "at-carbon-tabs",
-  "version": "1.0.0.136",
+  "version": "1.0.0.137",
   "private": true,
   "dependencies": {
     "tangere": "TangereJs/tangere#master",

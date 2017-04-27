@@ -426,15 +426,14 @@
       var oldRect = this._old.getBoundingClientRect();
       var oldIndex = this.$.tabsContent.indexOf(this._old);
       var index = this.$.tabsContent.indexOf(tab);
-      var m = 5;
 
       // bar animation: expand
       this.$.selectionBar.classList.add('expand');
 
       if (oldIndex < index) {
-        this._positionBar(this._calcPercent(tabRect.left + tabRect.width - oldRect.left, w) - m, this._left);
+        this._positionBar(this._calcPercent(tabRect.left + tabRect.width - oldRect.left, w), this._left);
       } else {
-        this._positionBar(this._calcPercent(oldRect.left + oldRect.width - tabRect.left, w) - m, this._calcPercent(tabOffsetLeft, w) + m);
+        this._positionBar(this._calcPercent(oldRect.left + oldRect.width - tabRect.left, w), this._calcPercent(tabOffsetLeft, w));
       }
 
       if (this.scrollable) {
@@ -463,9 +462,11 @@
     },
 
     _positionBar: function(width, left) {
+      if (window.isNaN(width) || window.isNaN(left)) { return; }
+
       this._width = width;
       this._left = left;
-      this.transform('translate3d(' + left + '%, 0, 0) scaleX(' + (width / 100) + ')', this.$.selectionBar);
+      this.transform('translateX(' + left + '%) scaleX(' + (width / 100) + ')', this.$.selectionBar);
     },
 
     _onBarTransitionEnd: function(e) {
