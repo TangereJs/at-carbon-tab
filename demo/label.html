@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+  <head>
+
+    <title>at-carbon-tabs</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="../at-carbon-tabs.html">
+    <link rel="import" href="../at-carbon-tab.html">
+
+    <style>
+
+      body {
+        font-family: sans-serif;
+        margin: 0;
+        padding: 24px;
+        color: #333;
+      }
+      
+      h3 {
+        font-size: 16px;
+        font-weight: 400;
+        padding-top: 20px;
+      }
+
+    </style>
+
+  </head>
+  <body unresolved>
+
+    <h3>A. Label set via InnerHTML </h3>
+
+    <at-carbon-tabs selected="0">
+
+      <at-carbon-tab>INNERHTML ITEM ONE</at-carbon-tab>
+      <at-carbon-tab>INNERHTML ITEM TWO</at-carbon-tab>
+      <at-carbon-tab>INNERHTML ITEM THREE</at-carbon-tab>
+
+    </at-carbon-tabs>
+
+    <h3>B. Label set via label property</h3>
+
+    <at-carbon-tabs selected="0">
+
+      <at-carbon-tab label="ITEM ONE"></at-carbon-tab>
+      <at-carbon-tab label="ITEM TWO"></at-carbon-tab>
+      <at-carbon-tab label="ITEM THREE"></at-carbon-tab>
+
+    </at-carbon-tabs>
+
+    <h3>C. Label set via both innerHTML and label property</h3>
+
+    <at-carbon-tabs selected="0">
+
+      <at-carbon-tab label="ITEM ONE">INNERHTML ITEM ONE</at-carbon-tab>
+      <at-carbon-tab label="ITEM TWO">INNERHTML ITEM TWO</at-carbon-tab>
+      <at-carbon-tab label="ITEM THREE">INNERHTML ITEM THREE</at-carbon-tab>
+
+    </at-carbon-tabs>
+
+  </body>
+</html>
