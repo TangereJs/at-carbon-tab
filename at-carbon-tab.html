@@ -69,7 +69,7 @@
           <content></content>
         </div>
       </div>
-      <at-carbon-badge for="inner" label="[[badgeLabel]]" color="[[badgeColor]]" x-offset="12" y-offset="-4"></at-carbon-badge>
+      <at-carbon-badge id="badge" for="inner" label="[[badgeLabel]]" color="[[badgeColor]]" x-offset="12" y-offset="-4"></at-carbon-badge>
     </div>
 
   </template>
@@ -97,7 +97,10 @@
       
     },
 
-    _computeLabelHidden: function(label) {
+    _computeLabelHidden: function (label) {
+      this.async(function () {
+        this.$.badge.updatePosition();
+      }, 10);
       var result = !label;
       return result;
     },
