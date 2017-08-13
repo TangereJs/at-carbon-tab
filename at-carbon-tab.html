@@ -1,5 +1,6 @@
 <link rel="import" href="../tangere/tangere.html">
 <link rel="import" href="../layout/layout.html">
+<link rel="import" href="../at-carbon-badge/at-carbon-badge.html">
 
 <dom-module id="at-carbon-tab">
   <template>
@@ -61,11 +62,14 @@
       }
     </style>
 
-    <div class="tab-content flex auto center-center horizontal layout">
-      <div hidden$="[[_computeLabelHidden(label)]]">[[label]]</div>
-      <div hidden$="[[_computeInnerHTMLHidden(label)]]">
-        <content></content>
+    <div id="container" class="tab-content flex auto center-center horizontal layout">
+      <div id="inner">
+        <div hidden$="[[_computeLabelHidden(label)]]">[[label]]</div>
+        <div hidden$="[[_computeInnerHTMLHidden(label)]]">
+          <content></content>
+        </div>
       </div>
+      <at-carbon-badge for="inner" label="[[badgeLabel]]" color="[[badgeColor]]" x-offset="12" y-offset="-4"></at-carbon-badge>
     </div>
 
   </template>
@@ -78,17 +82,19 @@
     is: 'at-carbon-tab',
 
     properties: {
-      /**
-       * 
-       * 
-       * @property 
-       * @type 
-       * @default  
-       */
       label: {
         type: String,
         value: ''
+      },
+      badgeLabel: {
+        type: String,
+        value: ''
+      },
+      badgeColor: {
+        type: String,
+        value: ''
       }
+      
     },
 
     _computeLabelHidden: function(label) {
