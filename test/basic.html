@@ -1,0 +1,387 @@
+<!doctype html>
+
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>at-carbon-tabs tests</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../web-component-tester/browser.js"></script>
+  <link rel="import" href="../at-carbon-tabs.html">
+  <link rel="import" href="../../iron-test-helpers/iron-test-helpers.html" />
+
+</head>
+<body>
+
+  <!-- initial state -->
+  <test-fixture id="initialState">
+    <template>
+      <at-carbon-tabs></at-carbon-tabs>
+    </template>
+  </test-fixture>
+  
+  <!-- nobar set -->
+  <test-fixture id="nobarSet">
+    <template>
+      <at-carbon-tabs nobar></at-carbon-tabs>
+    </template>
+  </test-fixture>
+
+  <!-- noslide set -->
+  <test-fixture id="noslideSet">
+    <template>
+      <at-carbon-tabs noslide></at-carbon-tabs>
+    </template>
+  </test-fixture>
+
+  <!-- scrollable set -->
+  <test-fixture id="scrollableSet">
+    <template>
+      <at-carbon-tabs scrollable></at-carbon-tabs>
+    </template>
+  </test-fixture>
+
+  <!-- disableDrag set -->
+  <test-fixture id="disableDragSet">
+    <template>
+      <at-carbon-tabs disable-drag></at-carbon-tabs>
+    </template>
+  </test-fixture>
+
+  <!-- hide-scroll-button set -->
+  <test-fixture id="hideScrollButtonSet">
+    <template>
+      <at-carbon-tabs hide-scroll-button></at-carbon-tabs>
+    </template>
+  </test-fixture>
+
+  <!-- align-bottom set -->
+  <test-fixture id="alignBottomSet">
+    <template>
+      <at-carbon-tabs align-bottom></at-carbon-tabs>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="tabsAssigned">
+    <template>
+      <at-carbon-tabs>
+        <at-carbon-tab id="item1" label="Item 1"></at-carbon-tab>
+        <at-carbon-tab id="item2" label="Item 2"></at-carbon-tab>
+        <at-carbon-tab id="item3" label="Item 3"></at-carbon-tab>
+        <at-carbon-tab id="item4" label="Item 4"></at-carbon-tab>
+        <at-carbon-tab id="item5" label="Item 5"></at-carbon-tab>
+      </at-carbon-tabs>
+    </template>
+  </test-fixture>
+
+  <test-fixture id="selectedSet">
+    <template>
+      <at-carbon-tabs selected="item4">
+        <at-carbon-tab id="item1" label="Item 1"></at-carbon-tab>
+        <at-carbon-tab id="item2" label="Item 2"></at-carbon-tab>
+        <at-carbon-tab id="item3" label="Item 3"></at-carbon-tab>
+        <at-carbon-tab id="item4" label="Item 4"></at-carbon-tab>
+        <at-carbon-tab id="item5" label="Item 5"></at-carbon-tab>
+      </at-carbon-tabs>
+    </template>
+  </test-fixture>
+
+  <!-- property test -->
+  <test-fixture id="propertyTest">
+    <template>
+      <at-carbon-tabs></at-carbon-tabs>
+    </template>
+  </test-fixture>
+
+  <script>
+    suite('basic', function() {
+
+      function assertPropertyValue(el, pName, pValue) {
+        assert.equal(el[pName], pValue);
+      }
+
+      function assertPropertyValueDeep(el, pName, pValue) {
+        assert.deepEqual(el[pName], pValue); 
+      }
+
+      function assertAttributeValue(el, attrName, attrValue) {
+        var attr = el.getAttribute(attrName);
+        assert.equal(attr, attrValue);
+      }
+
+      function getComputedStyleValue(el, pName) {
+        var cmpStyle = window.getComputedStyle(el);
+        return cmpStyle.getPropertyValue(pName);
+      }
+
+      function getQueryRoot(el) {        
+        return el.shadowRoot || el;
+      }
+
+      function assertInitialState(el) {
+        assertPropertyValue(el, 'nobar', false);
+        assertPropertyValue(el, 'noslide', false);
+        assertPropertyValue(el, 'scrollable', false);
+        assertPropertyValue(el, 'disableDrag', false);
+        assertPropertyValue(el, 'hideScrollButton', false);
+        assertPropertyValue(el, 'alignBottom', false);
+        assertPropertyValue(el, 'selected', undefined);
+        assertPropertyValue(el, 'attrForSelected', 'id');
+
+        assertAttributeValue(el.$.leftScrollButton, 'hidden', '');
+        assertAttributeValue(el.$.rightScrollButton, 'hidden', '');
+
+        assert.equal(el.$.tabsContent.classList.contains('horizontal'), true);
+        assert.equal(el.$.tabsContent.classList.contains('layout'), true);
+
+        assert.equal(el.$.selectionBar.classList.contains('hidden'), false);
+        assert.equal(el.$.selectionBar.classList.contains('align-bottom'), false); 
+      }
+
+      function assertStateForNobarSet(el) {
+        assertPropertyValue(el, 'nobar', true);
+        assertPropertyValue(el, 'noslide', false);
+        assertPropertyValue(el, 'scrollable', false);
+        assertPropertyValue(el, 'disableDrag', false);
+        assertPropertyValue(el, 'hideScrollButton', false);
+        assertPropertyValue(el, 'alignBottom', false);
+        assertPropertyValue(el, 'selected', undefined);
+        assertPropertyValue(el, 'attrForSelected', 'id');
+
+        assertAttributeValue(el.$.leftScrollButton, 'hidden', '');
+        assertAttributeValue(el.$.rightScrollButton, 'hidden', '');
+
+        assert.equal(el.$.tabsContent.classList.contains('horizontal'), true);
+        assert.equal(el.$.tabsContent.classList.contains('layout'), true);
+
+        assert.equal(el.$.selectionBar.classList.contains('hidden'), true);
+        assert.equal(el.$.selectionBar.classList.contains('align-bottom'), false); 
+        
+        var children = el.getEffectiveChildren();
+        assert.equal(children.length, 0);
+      }
+
+      function assertStateForNoslideSet(el) { 
+        assertPropertyValue(el, 'nobar', false);
+        assertPropertyValue(el, 'noslide', true);
+        assertPropertyValue(el, 'scrollable', false);
+        assertPropertyValue(el, 'disableDrag', false);
+        assertPropertyValue(el, 'hideScrollButton', false);
+        assertPropertyValue(el, 'alignBottom', false);
+        assertPropertyValue(el, 'selected', undefined);
+        assertPropertyValue(el, 'attrForSelected', 'id');
+
+        assertAttributeValue(el.$.leftScrollButton, 'hidden', '');
+        assertAttributeValue(el.$.rightScrollButton, 'hidden', '');
+
+        assert.equal(el.$.tabsContent.classList.contains('horizontal'), true);
+        assert.equal(el.$.tabsContent.classList.contains('layout'), true);
+
+        assert.equal(el.$.selectionBar.classList.contains('hidden'), false);
+        assert.equal(el.$.selectionBar.classList.contains('align-bottom'), false);
+
+        var children = el.getEffectiveChildren();
+        assert.equal(children.length, 0);
+      }
+
+      function assertStateForScrollableSet(el) {
+        assertPropertyValue(el, 'nobar', false);
+        assertPropertyValue(el, 'noslide', false);
+        assertPropertyValue(el, 'scrollable', true);
+        assertPropertyValue(el, 'disableDrag', false);
+        assertPropertyValue(el, 'hideScrollButton', false);
+        assertPropertyValue(el, 'alignBottom', false);
+        assertPropertyValue(el, 'selected', undefined);
+        assertPropertyValue(el, 'attrForSelected', 'id');
+
+        assertAttributeValue(el.$.leftScrollButton, 'hidden', null);
+        assertAttributeValue(el.$.rightScrollButton, 'hidden', null);
+
+        assert.equal(el.$.tabsContent.classList.contains('scrollable'), true);
+
+        assert.equal(el.$.selectionBar.classList.contains('hidden'), false); 
+        assert.equal(el.$.selectionBar.classList.contains('align-bottom'), false);
+
+        var children = el.getEffectiveChildren();
+        assert.equal(children.length, 0);
+      }
+
+      function assertStateForDisableDragSet(el) {
+        assertPropertyValue(el, 'nobar', false);
+        assertPropertyValue(el, 'noslide', false);
+        assertPropertyValue(el, 'scrollable', false);
+        assertPropertyValue(el, 'disableDrag', true);
+        assertPropertyValue(el, 'hideScrollButton', false);
+        assertPropertyValue(el, 'alignBottom', false);
+        assertPropertyValue(el, 'selected', undefined);
+        assertPropertyValue(el, 'attrForSelected', 'id');
+
+        assertAttributeValue(el.$.leftScrollButton, 'hidden', '');
+        assertAttributeValue(el.$.rightScrollButton, 'hidden', '');
+
+        assert.equal(el.$.tabsContent.classList.contains('horizontal'), true);
+        assert.equal(el.$.tabsContent.classList.contains('layout'), true);
+
+        assert.equal(el.$.selectionBar.classList.contains('hidden'), false); 
+        assert.equal(el.$.selectionBar.classList.contains('align-bottom'), false);
+
+        var children = el.getEffectiveChildren();
+        assert.equal(children.length, 0);
+      }
+
+      function assertStateForHideScrollButtonSet(el) {
+        assertPropertyValue(el, 'nobar', false);
+        assertPropertyValue(el, 'noslide', false);
+        assertPropertyValue(el, 'scrollable', false);
+        assertPropertyValue(el, 'disableDrag', false);
+        assertPropertyValue(el, 'hideScrollButton', true);
+        assertPropertyValue(el, 'alignBottom', false);
+        assertPropertyValue(el, 'selected', undefined);
+        assertPropertyValue(el, 'attrForSelected', 'id');
+
+        assertAttributeValue(el.$.leftScrollButton, 'hidden', '');
+        assertAttributeValue(el.$.rightScrollButton, 'hidden', '');
+
+        assert.equal(el.$.tabsContent.classList.contains('horizontal'), true);
+        assert.equal(el.$.tabsContent.classList.contains('layout'), true);
+
+        assert.equal(el.$.selectionBar.classList.contains('hidden'), false); 
+        assert.equal(el.$.selectionBar.classList.contains('align-bottom'), false);
+
+        var children = el.getEffectiveChildren();
+        assert.equal(children.length, 0);
+      }
+
+      function assertStateForAlignBottomSet(el) {
+        assertPropertyValue(el, 'nobar', false);
+        assertPropertyValue(el, 'noslide', false);
+        assertPropertyValue(el, 'scrollable', false);
+        assertPropertyValue(el, 'disableDrag', false);
+        assertPropertyValue(el, 'hideScrollButton', false);
+        assertPropertyValue(el, 'alignBottom', true);
+        assertPropertyValue(el, 'selected', undefined);
+        assertPropertyValue(el, 'attrForSelected', 'id');
+
+        assertAttributeValue(el.$.leftScrollButton, 'hidden', '');
+        assertAttributeValue(el.$.rightScrollButton, 'hidden', '');
+
+        assert.equal(el.$.tabsContent.classList.contains('horizontal'), true);
+        assert.equal(el.$.tabsContent.classList.contains('layout'), true);
+
+        assert.equal(el.$.selectionBar.classList.contains('hidden'), false); 
+        assert.equal(el.$.selectionBar.classList.contains('align-bottom'), true);
+
+        var children = el.getEffectiveChildren();
+        assert.equal(children.length, 0);
+      }
+
+      suite('tests where properties are set as attributes', function() {
+        
+        test('test initial state', function() {
+          var el = fixture('initialState');
+          assertInitialState(el);
+
+          var children = el.getEffectiveChildren();
+          assert.equal(children.length, 0);
+        });
+
+        test('nobar is set', function() {
+          var el = fixture('nobarSet');
+          assertStateForNobarSet(el);
+        });
+
+        test('noslideSet', function() {
+          var el = fixture('noslideSet');
+          assertStateForNoslideSet(el);
+        });
+
+        test('scrollableSet', function() {
+          var el = fixture('scrollableSet');
+          assertStateForScrollableSet(el);
+        });
+
+        test('disableDragSet', function() {
+          var el = fixture('disableDragSet');
+          assertStateForDisableDragSet(el);
+        });
+
+        test('hideScrollButtonSet', function() {
+          var el = fixture('hideScrollButtonSet');
+          assertStateForHideScrollButtonSet(el);
+        });
+
+        test('alignBottomSet', function() {
+          var el = fixture('alignBottomSet');
+          assertStateForAlignBottomSet(el);
+        });
+
+        test('tabs assigned', function() {
+          var el = fixture('tabsAssigned');
+          assertInitialState(el);
+
+          var children = el.getEffectiveChildren();
+          assert.equal(children.length, 5);
+
+          Array.prototype.forEach.call(children, function(child, index){ 
+            var label = 'Item ' + (index+1);
+            assert.equal(child.label, label);
+          });
+
+          assert.equal(el.selected, undefined);
+        });
+
+        test('selected set', function() {
+          var el = fixture('selectedSet');
+          
+          Polymer.dom.flush();
+          
+          assertPropertyValue(el, 'nobar', false);
+          assertPropertyValue(el, 'noslide', false);
+          assertPropertyValue(el, 'scrollable', false);
+          assertPropertyValue(el, 'disableDrag', false);
+          assertPropertyValue(el, 'hideScrollButton', false);
+          assertPropertyValue(el, 'alignBottom', false);
+          assertPropertyValue(el, 'selected', 'item4');
+          assertPropertyValue(el, 'attrForSelected', 'id');
+
+          assertAttributeValue(el.$.leftScrollButton, 'hidden', '');
+          assertAttributeValue(el.$.rightScrollButton, 'hidden', '');
+
+          assert.equal(el.$.tabsContent.classList.contains('horizontal'), true);
+          assert.equal(el.$.tabsContent.classList.contains('layout'), true);
+
+          assert.equal(el.$.selectionBar.classList.contains('hidden'), false);
+          assert.equal(el.$.selectionBar.classList.contains('align-bottom'), false); 
+
+          var children = el.getEffectiveChildren();
+          assert.equal(children.length, 5);
+
+          Array.prototype.forEach.call(children, function(child, index){ 
+            var label = 'Item ' + (index+1);
+            assert.equal(child.label, label);
+          });
+
+          var selectedTab = el.$.tabsContent.selectedItem;
+          var expectedTab = children[3];
+          assert.equal(selectedTab, expectedTab);
+        });
+
+      });
+
+      suite('tests were properties are set in code', function() {
+
+        test('test initial state', function() {
+          var el = fixture('propertyTest');
+          assertInitialState(el);
+
+          var children = el.getEffectiveChildren();
+          assert.equal(children.length, 0);
+        });
+
+      });
+
+    });
+  </script>
+</body>
+</html>
