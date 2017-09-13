@@ -276,6 +276,50 @@
         assert.equal(children.length, 0);
       }
 
+      function assertStateForTabsAssigned(el) {
+        var children = el.getEffectiveChildren();
+        assert.equal(children.length, 5);
+
+        Array.prototype.forEach.call(children, function(child, index){ 
+          var label = 'Item ' + (index+1);
+          assert.equal(child.label, label);
+        });
+
+        assert.equal(el.selected, undefined);
+      }
+
+      function assertStateForSelectedSet(el) {
+        assertPropertyValue(el, 'nobar', false);
+        assertPropertyValue(el, 'noslide', false);
+        assertPropertyValue(el, 'scrollable', false);
+        assertPropertyValue(el, 'disableDrag', false);
+        assertPropertyValue(el, 'hideScrollButton', false);
+        assertPropertyValue(el, 'alignBottom', false);
+        assertPropertyValue(el, 'selected', 'item4');
+        assertPropertyValue(el, 'attrForSelected', 'id');
+
+        assertAttributeValue(el.$.leftScrollButton, 'hidden', '');
+        assertAttributeValue(el.$.rightScrollButton, 'hidden', '');
+
+        assert.equal(el.$.tabsContent.classList.contains('horizontal'), true);
+        assert.equal(el.$.tabsContent.classList.contains('layout'), true);
+
+        assert.equal(el.$.selectionBar.classList.contains('hidden'), false);
+        assert.equal(el.$.selectionBar.classList.contains('align-bottom'), false); 
+
+        var children = el.getEffectiveChildren();
+        assert.equal(children.length, 5);
+
+        Array.prototype.forEach.call(children, function(child, index){ 
+          var label = 'Item ' + (index+1);
+          assert.equal(child.label, label);
+        });
+
+        var selectedTab = el.$.tabsContent.selectedItem;
+        var expectedTab = children[3];
+        assert.equal(selectedTab, expectedTab);
+      }
+
       suite('tests where properties are set as attributes', function() {
         
         test('test initial state', function() {
@@ -320,15 +364,9 @@
           var el = fixture('tabsAssigned');
           assertInitialState(el);
 
-          var children = el.getEffectiveChildren();
-          assert.equal(children.length, 5);
+          Polymer.dom.flush();
 
-          Array.prototype.forEach.call(children, function(child, index){ 
-            var label = 'Item ' + (index+1);
-            assert.equal(child.label, label);
-          });
-
-          assert.equal(el.selected, undefined);
+          assertStateForTabsAssigned(el);
         });
 
         test('selected set', function() {
@@ -336,40 +374,19 @@
           
           Polymer.dom.flush();
           
-          assertPropertyValue(el, 'nobar', false);
-          assertPropertyValue(el, 'noslide', false);
-          assertPropertyValue(el, 'scrollable', false);
-          assertPropertyValue(el, 'disableDrag', false);
-          assertPropertyValue(el, 'hideScrollButton', false);
-          assertPropertyValue(el, 'alignBottom', false);
-          assertPropertyValue(el, 'selected', 'item4');
-          assertPropertyValue(el, 'attrForSelected', 'id');
-
-          assertAttributeValue(el.$.leftScrollButton, 'hidden', '');
-          assertAttributeValue(el.$.rightScrollButton, 'hidden', '');
-
-          assert.equal(el.$.tabsContent.classList.contains('horizontal'), true);
-          assert.equal(el.$.tabsContent.classList.contains('layout'), true);
-
-          assert.equal(el.$.selectionBar.classList.contains('hidden'), false);
-          assert.equal(el.$.selectionBar.classList.contains('align-bottom'), false); 
-
-          var children = el.getEffectiveChildren();
-          assert.equal(children.length, 5);
-
-          Array.prototype.forEach.call(children, function(child, index){ 
-            var label = 'Item ' + (index+1);
-            assert.equal(child.label, label);
-          });
-
-          var selectedTab = el.$.tabsContent.selectedItem;
-          var expectedTab = children[3];
-          assert.equal(selectedTab, expectedTab);
+          assertStateForSelectedSet(el);
         });
 
       });
-
+    
       suite('tests were properties are set in code', function() {
+
+        function createTab(id, label) {
+          var tab = document.createElement('at-carbon-tab');
+          Polymer.dom(tab).setAttribute('id', id);
+          Polymer.dom(tab).setAttribute('label', label);
+          return tab;
+        }
 
         test('test initial state', function() {
           var el = fixture('propertyTest');
@@ -377,6 +394,118 @@
 
           var children = el.getEffectiveChildren();
           assert.equal(children.length, 0);
+        });
+
+        test('nobar set', function() {
+          var el = fixture('propertyTest');
+          assertInitialState(el);
+
+          var children = el.getEffectiveChildren();
+          assert.equal(children.length, 0);
+
+          el.nobar = true;
+
+          assertStateForNobarSet(el);
+        });
+
+        test('noslide set', function() {
+          var el = fixture('propertyTest');
+          assertInitialState(el);
+
+          var children = el.getEffectiveChildren();
+          assert.equal(children.length, 0);
+
+          el.noslide = true;
+
+          assertStateForNoslideSet(el);
+        });
+
+        test('scrollable set', function() {
+          var el = fixture('propertyTest');
+          assertInitialState(el);
+
+          var children = el.getEffectiveChildren();
+          assert.equal(children.length, 0);
+
+          el.scrollable = true;
+
+          assertStateForScrollableSet(el);
+        });
+
+        test('disabledrag set', function() {
+          var el = fixture('propertyTest');
+          assertInitialState(el);
+
+          var children = el.getEffectiveChildren();
+          assert.equal(children.length, 0);
+
+          el.disableDrag = true;
+
+          assertStateForDisableDragSet(el);
+        });
+
+        test('hideScrollButton set', function() {
+          var el = fixture('propertyTest');
+          assertInitialState(el);
+
+          var children = el.getEffectiveChildren();
+          assert.equal(children.length, 0);
+
+          el.hideScrollButton = true;
+
+          assertStateForHideScrollButtonSet(el);
+        });
+
+        test('alignButton set', function() {
+          var el = fixture('propertyTest');
+          assertInitialState(el);
+
+          var children = el.getEffectiveChildren();
+          assert.equal(children.length, 0);
+
+          el.alignBottom = true;
+
+          assertStateForAlignBottomSet(el);
+        });
+
+        test('tabs assigned', function() {
+          var el = fixture('propertyTest');
+          assertInitialState(el);
+
+          var children = el.getEffectiveChildren();
+          assert.equal(children.length, 0);
+
+          for (var i = 1; i < 6; i++) {
+            var id = 'item' + 1;
+            var label = 'Item ' + i;
+            
+            Polymer.dom(el).appendChild(createTab(id, label));
+          }
+          
+          Polymer.dom.flush();
+
+          assertStateForTabsAssigned(el);
+        });
+
+        test('selected set', function() {
+          var el = fixture('propertyTest');
+          assertInitialState(el);
+
+          var children = el.getEffectiveChildren();
+          assert.equal(children.length, 0);
+
+          for (var i = 1; i < 6; i++) {
+            var id = 'item' + i;
+            var label = 'Item ' + i;
+            
+            Polymer.dom(el).appendChild(createTab(id, label));
+          }
+          
+          el.selected = "item4";
+
+          Polymer.dom.flush();
+
+          assertStateForSelectedSet(el);
         });
 
       });

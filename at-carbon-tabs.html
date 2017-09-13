@@ -56,6 +56,10 @@
         transition: transform;
       }
 
+      #selectionBar.hidden {
+        display: none;
+      }
+
       #selectionBar.align-bottom {
         top: 0;
         bottom: auto;
@@ -257,7 +261,7 @@
 
       attrForSelected: {
         type: String,
-        value: 'id'        
+        value: 'id'
       },
 
       _step: {
