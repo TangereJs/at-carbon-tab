@@ -208,7 +208,8 @@
        */
       scrollable: {
         type: Boolean,
-        value: false
+        value: false,
+        observer: '_scrollableChanged'
       },
 
       /**
@@ -353,6 +354,13 @@
       } else if (alignBottom) {
         return 'align-bottom';
       }
+    },
+
+    _scrollableChanged: function(newValue, oldValue) {
+      var tabs = this.getEffectiveChildren();
+      tabs.forEach(function(tab) { 
+        this.toggleClass('scrollable', newValue, tab);
+      }, this);
     },
 
     // TODO(cdata): Add `track` response back in when gesture lands.
