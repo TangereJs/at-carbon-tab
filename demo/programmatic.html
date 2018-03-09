@@ -9,11 +9,11 @@
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
 
   <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+  <link rel="import" href="../../at-core-style-classes/at-core-style-classes.html" />
   <link rel="import" href="../../at-form-radio/at-form-radio.html">
   <link rel="import" href="../at-carbon-tabs.html">
-  <link rel="import" href="../at-carbon-tab.html">
 
-  <style>
+  <style is="custom-style" include="at-core-style-classes">
     body {
       font-family: sans-serif;
       margin: 0;
@@ -48,8 +48,8 @@
 
 <body>
 
-  <div class="horizontal layout">
-    <div class="vertical layout flex-8 light-padding">
+  <div class="layout-horizontal">
+    <div class="layout-vertical layout-flex8 light-padding">
       <h3>Demo where tabs are switched programmatically</h3>
 
       <at-carbon-tabs id="programmaticTabs" attr-for-selected="data-name" selected="item-one">
@@ -60,7 +60,7 @@
 
       </at-carbon-tabs>
 
-      <div class="" id="tab-content-wrapper">
+      <div id="tab-content-wrapper">
         <div class="tab-content active" id="item-one">
           <h4>This is ITEM ONE content </h4>
         </div>
@@ -72,7 +72,7 @@
         </div>
       </div>
     </div>
-    <div class="vertical layout flex-4 light-padding">
+    <div class="layout-vertical layout-flex4 light-padding">
       <div class="tab-switch-control-wrapper">
         <h4>Use this control to switch tabs</h4>
         <at-form-radio id="switchTabsRadio"></at-form-radio>
