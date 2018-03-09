@@ -1,5 +1,4 @@
 <link rel="import" href="../tangere/tangere.html">
-<link rel="import" href="../layout/layout.html">
 
 <link rel="import" href="../iron-resizable-behavior/iron-resizable-behavior.html">
 <link rel="import" href="../iron-selector/iron-selector.html">
@@ -39,6 +38,11 @@
       #tabsContent.scrollable {
         position: absolute;
         white-space: nowrap;
+      }
+
+      #tabsContent.layout-horizontal {
+        display: flex;
+        flex-direction: row;
       }
 
       #selectionBar {
@@ -126,6 +130,7 @@
         white-space: nowrap;
         overflow: hidden;
         margin: 0 24px;
+        flex: 1;
       }
 
       at-carbon-icon {
@@ -142,7 +147,7 @@
           <at-carbon-icon icon="caret-left" class$="[[_computeIconClass(leftHidden)]] scroll-button" on-down="_onLeftScrollButtonDown" on-up="_onScrollButtonUp"></at-carbon-icon>
         </div>
 
-        <div id="tabsContainer" class="flex" on-scroll="_scroll">
+        <div id="tabsContainer" on-scroll="_scroll">
 
           <iron-selector id="tabsContent" class$="[[_computeTabsContentClass(scrollable)]]" selected="{{selected}}" selected-item="{{_tab}}" attr-for-selected="[[attrForSelected]]" selectable="at-carbon-tab">
 
@@ -345,7 +350,7 @@
     },
 
     _computeTabsContentClass: function(scrollable) {
-      return scrollable ? 'scrollable' : 'horizontal layout';
+      return scrollable ? 'scrollable' : 'layout-horizontal';
     },
 
     _computeSelectionBarClass: function(nobar, alignBottom) {
@@ -358,7 +363,7 @@
 
     _scrollableChanged: function(newValue, oldValue) {
       var tabs = this.getEffectiveChildren();
-      tabs.forEach(function(tab) { 
+      tabs.forEach(function(tab) {
         this.toggleClass('scrollable', newValue, tab);
       }, this);
     },
