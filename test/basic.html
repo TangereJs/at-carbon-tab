@@ -351,9 +351,10 @@
         test('selected set', function() {
           var el = fixture('selectedSet');
           
-          Polymer.dom.flush();
+          el.addEventListener('iron-items-changed', function() {
+            assertStateForSelectedSet(el);
+          });
           
-          assertStateForSelectedSet(el);
         });
 
       });
@@ -482,9 +483,9 @@
           
           el.selected = "item4";
 
-          Polymer.dom.flush();
-
-          assertStateForSelectedSet(el);
+          el.addEventListener('iron-items-changed', function() {
+            assertStateForSelectedSet(el);
+          });
         });
 
       });
