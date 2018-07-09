@@ -60,6 +60,20 @@
       .tab-content> ::content {
         cursor: pointer;
       }
+
+      .tab-content> ::slotted(a) {
+        height: 100%;
+        /* flex */
+        -ms-flex: 1 1 0.000000001px;
+        -webkit-flex: 1;
+        flex: 1;
+        -webkit-flex-basis: 0.000000001px;
+        flex-basis: 0.000000001px;
+      }
+
+      .tab-content> ::slotted {
+        cursor: pointer;
+      }
     </style>
 
     <div id="container" class="tab-content">
@@ -67,6 +81,7 @@
         <div hidden$="[[_computeLabelHidden(label)]]">[[label]]</div>
         <div hidden$="[[_computeInnerHTMLHidden(label)]]">
           <content></content>
+          <slot></slot>
         </div>
       </div>
       <at-carbon-badge id="badge" for="inner" label="[[badgeLabel]]" color="[[badgeColor]]" x-offset="6"></at-carbon-badge>

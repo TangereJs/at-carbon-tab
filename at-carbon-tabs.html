@@ -147,6 +147,7 @@
           <iron-selector id="tabsContent" class$="[[_computeTabsContentClass(scrollable)]]" selected="{{selected}}" selected-item="{{_tab}}" attr-for-selected="[[attrForSelected]]" selectable="at-carbon-tab">
 
             <content select="*"></content>
+            <slot></slot>
 
             <div id="selectionBar" class$="[[_computeSelectionBarClass(nobar, alignBottom)]] scroll-button" on-transitionend="_onBarTransitionEnd"></div>
 
