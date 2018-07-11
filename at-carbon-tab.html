@@ -1,5 +1,6 @@
 <link rel="import" href="../tangere/tangere.html">
 <link rel="import" href="../at-carbon-badge/at-carbon-badge.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
 
 <dom-module id="at-carbon-tab">
   <template>
@@ -49,12 +50,7 @@
 
       .tab-content> ::content > a {
         height: 100%;
-        /* flex */
-        -ms-flex: 1 1 0.000000001px;
-        -webkit-flex: 1;
-        flex: 1;
-        -webkit-flex-basis: 0.000000001px;
-        flex-basis: 0.000000001px;
+        @apply --layout-flex;
       }
 
       .tab-content> ::content {
@@ -63,12 +59,7 @@
 
       .tab-content> ::slotted(a) {
         height: 100%;
-        /* flex */
-        -ms-flex: 1 1 0.000000001px;
-        -webkit-flex: 1;
-        flex: 1;
-        -webkit-flex-basis: 0.000000001px;
-        flex-basis: 0.000000001px;
+        @apply --layout-flex;
       }
 
       .tab-content> ::slotted {
