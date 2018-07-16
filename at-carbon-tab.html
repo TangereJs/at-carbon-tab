@@ -65,9 +65,13 @@
       .tab-content> ::slotted {
         cursor: pointer;
       }
+
+      .cursor-pointer {
+        cursor: pointer;
+      }
     </style>
 
-    <div id="container" class="tab-content">
+    <div id="container" class$="tab-content [[_computeAdditionalClasses(label)]]">
       <div id="inner">
         <div hidden$="[[_computeLabelHidden(label)]]">[[label]]</div>
         <div hidden$="[[_computeInnerHTMLHidden(label)]]">
@@ -114,6 +118,11 @@
     _computeInnerHTMLHidden: function(label) {
       var result = !!label;
       return result;
+    },
+
+    _computeAdditionalClasses: function(label) {
+      if (label.length > 0) return "cursor-pointer";
+      return "";
     }
   });
 </script>
