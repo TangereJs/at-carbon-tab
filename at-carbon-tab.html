@@ -27,6 +27,10 @@
         padding: 0;
       }
 
+      :host([disabled]) {
+        @apply --at-form-disabled;
+      }
+
       .tab-content {
         height: 100%;
         -webkit-transform: translateZ(0);
