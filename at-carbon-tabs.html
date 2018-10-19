@@ -74,7 +74,7 @@
         transition-timing-function: cubic-bezier(0.0, 0.0, 0.2, 1);
       }
 
-      #tabsContent >::content > *:not(#selectionBar) {
+      #tabsContent > ::slotted() > *:not(#selectionBar) {
         height: 100%;
       }
 
@@ -104,11 +104,11 @@
         right: 0;
       }
 
-      .scroll-button-container > .scroll-button {
+      .scroll-button-container .scroll-button {
         cursor: pointer;
       }
 
-      .scroll-button-container > .scroll-button.hide {
+      .scroll-button-container .scroll-button.hide {
         display: none;
         opacity: 0;
       }
@@ -133,6 +133,10 @@
         width: var(--at-inline-icon-size);
         height: var(--at-inline-icon-size);
       }
+
+      [hidden] * {
+        display: none !important;
+      }
     </style>
     <div class="wrapper">
       <at-core-resize-sensor id="resizeSensor"></at-core-resize-sensor>
@@ -146,7 +150,6 @@
 
           <iron-selector id="tabsContent" class$="[[_computeTabsContentClass(scrollable)]]" selected="{{selected}}" selected-item="{{_tab}}" attr-for-selected="[[attrForSelected]]" selectable="at-carbon-tab">
 
-            <content select="*"></content>
             <slot></slot>
 
             <div id="selectionBar" class$="[[_computeSelectionBarClass(nobar, alignBottom)]] scroll-button" on-transitionend="_onBarTransitionEnd"></div>

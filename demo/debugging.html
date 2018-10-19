@@ -1,0 +1,108 @@
+<!doctype html>
+<html>
+  <head>
+
+    <title>at-carbon-tabs</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="../at-carbon-tabs.html">
+    <link rel="import" href="../at-carbon-tab.html">
+
+    <style>
+
+      body {
+        font-family: sans-serif;
+        margin: 0;
+        padding: 24px;
+        color: #333;
+      }
+      
+      h3 {
+        font-size: 16px;
+        font-weight: 400;
+        padding-top: 20px;
+      }
+
+      .db {
+        border: 1px solid purple;
+
+        padding: 8px;
+        margin: 8px;
+      }
+      
+      .non-scrollable {
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+        height: 48px;
+        font-size: 14px;
+        font-weight: 500;
+        overflow: hidden;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+      }
+
+      .pera {
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+        height: 48px;
+        font-size: 14px;
+        font-weight: 500;
+        overflow: hidden;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+        width: 480px;
+      }
+
+      .margin-top {
+        margin-top: 32px;
+      }
+
+    </style>
+
+  </head>
+  <body>
+
+    <at-carbon-tabs class="non-scrollable db" attr-for-selected="id" selected="0">
+      <at-carbon-tab class="db" id="0">ITEM ONE</at-carbon-tab>
+      <at-carbon-tab class="db" id="1">ITEM TWO</at-carbon-tab>
+      <at-carbon-tab class="db" id="2">ITEM THREE</at-carbon-tab>
+      <at-carbon-tab class="db" id="3">ITEM 4</at-carbon-tab>
+      <at-carbon-tab class="db" id="4">ITEM 5</at-carbon-tab>
+      <at-carbon-tab class="db" id="5">ITEM 6</at-carbon-tab>
+      <at-carbon-tab class="db" id="6">ITEM 7</at-carbon-tab>
+      <at-carbon-tab class="db" id="7">ITEM 8</at-carbon-tab>
+      <at-carbon-tab class="db" id="8">ITEM 9</at-carbon-tab>
+    </at-carbon-tabs>
+
+    <at-carbon-tabs class="pera margin-top db" scrollable attr-for-selected="id" selected="0">
+      <at-carbon-tab class="db" id="0">ITEM ONE</at-carbon-tab>
+      <at-carbon-tab class="db" id="1">ITEM TWO</at-carbon-tab>
+      <at-carbon-tab class="db" id="2">ITEM THREE</at-carbon-tab>
+      <at-carbon-tab class="db" id="3">ITEM 4</at-carbon-tab>
+      <at-carbon-tab class="db" id="4">ITEM 5</at-carbon-tab>
+      <at-carbon-tab class="db" id="5">ITEM 6</at-carbon-tab>
+      <at-carbon-tab class="db" id="6">ITEM 7</at-carbon-tab>
+      <at-carbon-tab class="db" id="7">ITEM 8</at-carbon-tab>
+      <at-carbon-tab class="db" id="8">ITEM 9</at-carbon-tab>
+    </at-carbon-tabs>
+
+  </body>
+</html>
