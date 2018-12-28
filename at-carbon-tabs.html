@@ -270,6 +270,36 @@
         value: 'id'
       },
 
+      tabs: {
+        type: Array,
+        value: function() {
+          return [];
+        },
+        observer: "_tabsChanged",
+        schema: {
+          items: {
+            type: "object",
+            properties: {
+              value: {
+                type: "string",
+                title: "Value"
+              },
+              title: {
+                type: "string",
+                title: "Title"
+              },
+              disabled: {
+                type: "boolean",
+                title: "Disabled"
+              }
+            }
+          }
+        },
+        layout: "horizontal",
+        title: "Tabs",
+        xgridcols: "12"
+      },
+
       _step: {
         value: 10
       },
@@ -504,7 +534,51 @@
       } else if (cl.contains('contract')) {
         cl.remove('contract');
       }
-    }
+    },
+
+    _tabsChanged: function(newValue, oldValue) {
+      console.log(JSON.stringify(newValue));
+      
+      if (this._isString(newValue)) {
+        try {
+          this.tabs = JSON.parse(newValue);
+        } catch (e) {
+          console.log(e);
+        }
+        return;
+      }
+
+      if (!this._isArray(newValue)) return;
+
+      // if slotted items exist return;
+      var slotted = Polymer.dom(this).children;
+      if (slotted.length) return;
+      
+      // clear previous data if there are no slotted items 
+      var childToRemove = Polymer.dom(this.$.tabsContent).firstChild;
+      while(childToRemove.id != "selectionBar") {
+        Polymer.dom(this.$.tabsContent).removeChild(childToRemove);
+        childToRemove = Polymer.dom(this.$.tabsContent).firstChild;
+      }
+
+      if (newValue.length == 0) return;
+
+      var self = this;
+      newValue.forEach(function(tabDef) {
+        var carbonTab = self.create('at-carbon-tab');
+        carbonTab.label = tabDef.title;
+        carbonTab.setAttribute('id', tabDef.value);
+        self.toggleAttribute('disabled', tabDef.disabled, carbonTab);
+
+        Polymer.dom(self.$.tabsContent).insertBefore(carbonTab, self.$.selectionBar);
+      });
+
+      this.selected = newValue[0].value;
+    },
+
+    _isString: function(obj) { return Object.prototype.toString.call(obj) === "[object String]"; },
+
+    _isArray: function(obj) { return Object.prototype.toString.call(obj) === "[object Array]"; }
 
   });
 </script>
