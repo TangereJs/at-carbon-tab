@@ -584,8 +584,6 @@
     },
 
     _tabsChanged: function(newValue, oldValue) {
-      console.log(JSON.stringify(newValue));
-      
       if (this._isString(newValue)) {
         try {
           this.tabs = JSON.parse(newValue);
