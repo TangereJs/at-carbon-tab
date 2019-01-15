@@ -1,4 +1,5 @@
 <link rel="import" href="../tangere/tangere.html">
+<link rel="import" href="../at-carbon-icon/at-carbon-icon.html">
 <link rel="import" href="../at-carbon-badge/at-carbon-badge.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
 
@@ -9,6 +10,10 @@
         display: inline-block;
         padding: 0 12px;
         cursor: default;
+
+        --tab-background-color: #EFF6FF;
+        --tab-icon-color: #0050FF;
+        --tab-text-color: #4A90E2;
       }
 
       :host(.scrollable) {
@@ -34,21 +39,16 @@
         justify-content: center;
       }
 
-       :host(:not(.iron-selected))>.tab-content {
+       :host(:not(.iron-selected)) > .tab-content {
         opacity: 0.6;
       }
 
-      #ink {
-        color: #ffff8d;
-        pointer-events: none;
-      }
-
-      .tab-content> ::content > a {
+      .tab-content > ::slotted > a {
         height: 100%;
         @apply --layout-flex;
       }
 
-      .tab-content> ::content {
+      .tab-content > ::slotted {
         cursor: pointer;
       }
 
@@ -64,12 +64,224 @@
       .cursor-pointer {
         cursor: pointer;
       }
+
+      :host([tab-style="default"]) > #container {
+        padding: 0 12px;
+        padding-bottom: 12px;
+      }
+
+      :host([tab-style="default"].selected) > #container {
+        border-bottom: 2px solid var(--primary-color);
+      }
+
+      /*
+        STYLES for the tab-style tab
+      */
+      :host([tab-style="tab"]) {
+        padding: 0;
+      }
+
+      :host([tab-style="tab"]) > #container {
+        border-bottom: 2px solid transparent;
+        padding: 0 12px;
+
+        position: relative;
+        margin: 0 auto;
+
+        border-bottom: 1px solid lightgray;
+      }
+
+      :host([tab-style="tab"].selected) > #container {
+        border-bottom: 2px solid var(--primary-color);
+        color: var(--tab-text-color) !important;
+
+        background-image: linear-gradient(transparent 10%, var(--tab-background-color));
+      }
+
+      :host([tab-style="tab"]) > #container:before, 
+      :host([tab-style="tab"]) > #container:after {
+        content: "";
+        position: absolute;
+
+        top: -1px;
+        bottom: -1px;
+
+        width: 1px;
+        background-image: linear-gradient(transparent 30%, lightgray 100%);
+      }
+
+      :host([tab-style="tab"]) > #container:before {
+        left: -1px;
+      }
+
+      :host([tab-style="tab"]) > #container:after {
+        right: 0px;
+      }
+
+      /*
+        COMPACT TAB styles
+      */
+      :host([tab-style="tab"][size="compact"]) > #container at-carbon-icon {
+        display: none !important;
+      }
+
+      :host([tab-style="tab"][size="compact"]:hover) > #container label {
+        cursor: pointer;
+        color: var(--tab-text-color);
+      }
+
+      :host([tab-style="tab"][size="compact"]:focus) {
+        outline: none;
+      }
+
+      :host([tab-style="tab"][size="compact"]:focus) > #container {
+        background-image: linear-gradient(transparent 10%, var(--tab-background-color));
+      }
+
+      :host([tab-style="tab"][size="compact"]:focus) > #container label {
+        color: var(--tab-text-color);
+      }
+
+      /*
+        LARGE TAB styles
+      */
+
+      :host([tab-style="tab"][size="large"]) > #container at-carbon-icon {
+        display: block !important;
+        margin: 0 auto;
+      }
+
+      :host([tab-style="tab"][size="large"]) > #container label {
+        display: block !important;
+      }
+
+      :host([tab-style="tab"][size="large"].selected) {
+        color: var(--tab-text-color);
+      }
+
+      :host([tab-style="tab"][size="large"]:hover) > #container at-carbon-icon {
+        color: var(--tab-text-color);
+      }
+
+      :host([tab-style="tab"][size="large"]:hover) > #container label {
+        color: var(--tab-text-color);
+      }
+
+      :host([tab-style="tab"][size="large"]:focus) {
+        outline: none;
+      }
+      
+      :host([tab-style="tab"][size="large"]:focus) > #container { 
+        background-image: linear-gradient(transparent 10%, var(--tab-background-color));
+      }
+
+      :host([tab-style="tab"][size="large"]:focus) > #container at-carbon-icon {
+        color: var(--tab-text-color);
+      }
+
+      :host([tab-style="tab"][size="large"]:focus) > #container label {
+        color: var(--tab-text-color);
+      }
+
+      /*
+        STYLES for the tab-style pill
+      */
+
+      :host([tab-style="pill"]) {
+        position: relative;
+      
+        border: 1px solid lightgray;
+      }
+
+      :host([tab-style="pill"].selected) {
+        color: var(--tab-text-color) !important;
+        background-color: var(--tab-background-color) !important;
+      }
+
+      /*
+        PILL COMPACT styles
+      */
+      
+      :host([tab-style="pill"][size="compact"].selected) > #container label {
+        color: var(--tab-text-color) !important;
+      }
+
+      :host([tab-style="pill"][size="compact"]) > #container at-carbon-icon {
+        display: none !important;
+      }
+
+      :host([tab-style="pill"][size="compact"]:hover) {
+        background-color: var(--at-light-grey);
+      }
+
+      :host([tab-style="pill"][size="compact"]:hover) > #container label {
+        color: var(--at-black);
+      }
+
+      :host([tab-style="pill"][size="compact"]:focus) {
+        outline: none;
+        background-color: var(--at-light-grey);
+      }
+
+      :host([tab-style="pill"][size="compact"]:focus) > #container label {
+        color: var(--tab-text-color);
+      }
+      
+      /*
+        PILL LARGE styles
+      */
+
+      :host([tab-style="pill"][size="large"]) > #container at-carbon-icon {
+        display: block !important;
+        margin: 0 auto;
+      }
+
+      :host([tab-style="pill"][size="large"]) > #container label {
+        display: block !important;
+      }
+
+      :host([tab-style="pill"][size="large"].selected) > #container at-carbon-icon {
+        color: var(--tab-icon-color) !important;
+      }
+
+      :host([tab-style="pill"][size="large"].selected) > #container label {
+        color: var(--tab-text-color) !important;
+      }
+
+      :host([tab-style="pill"][size="large"]:hover) {
+        background-color: var(--at-light-grey);
+      }
+
+      :host([tab-style="pill"][size="large"]:hover) > #container at-carbon-icon {
+        color: var(--at-black);
+      }
+
+      :host([tab-style="pill"][size="large"] :hover) > #container label {
+        color: var(--at-black);
+      }
+
+      :host([tab-style="pill"][size="large"]:focus) {
+        outline: none;
+        background-color: var(--at-light-grey);
+      }
+
+      :host([tab-style="pill"][size="large"]:focus) > #container at-carbon-icon {
+        color: var(--tab-icon-color);
+      }
+
+      :host([tab-style="pill"][size="large"]:focus) > #container label {
+        color: var(--tab-text-color);
+      }
+
     </style>
 
     <div id="container" class$="tab-content [[_computeAdditionalClasses(label)]]">
       <div id="inner">
-        <div hidden$="[[_computeLabelHidden(label)]]">[[label]]</div>
-        <div hidden$="[[_computeInnerHTMLHidden(label)]]">
+        <div hidden$="[[_computeLabelHidden(label, icon)]]">
+          <at-carbon-icon icon="[[icon]]"></at-carbon-icon>
+          <label>[[label]]</label>
+        </div> 
+        <div hidden$="[[_computeInnerHTMLHidden(label, icon)]]">
           <slot></slot>
         </div>
       </div>
@@ -90,6 +302,10 @@
         type: String,
         value: ''
       },
+      icon: {
+        type: String,
+        value: ''
+      },
       badgeLabel: {
         type: String,
         value: ''
@@ -97,26 +313,58 @@
       badgeColor: {
         type: String,
         value: ''
-      }
+      },
 
+      tabStyle: {
+        type: String,
+        value: "default",
+        observer: "_tabStyleChanged",
+        xvaluelist: [
+          { title: "Default", value: "default" },
+          { title: "Tab", value: "tab" },
+          { title: "Pill", value: "pill" }
+        ],
+        xtype: "enum"
+      },
+
+      size: {
+        type: String,
+        value: "compact",
+        observer: "_sizeChanged",
+        xvaluelist: [
+          { title: "Compact", value: "compact" },
+          { title: "Large", value: "large" }
+        ],
+        xtype: "enum"
+      }
     },
 
-    _computeLabelHidden: function (label) {
+    _computeLabelHidden: function (label, icon) {
       this.async(function () {
         this.$.badge.updatePosition();
       }, 10);
-      var result = !label;
+      var result = !label && !icon;
       return result;
     },
 
-    _computeInnerHTMLHidden: function(label) {
-      var result = !!label;
+    _computeInnerHTMLHidden: function(label, icon) {
+      var result = !!label && !!icon;
       return result;
     },
 
     _computeAdditionalClasses: function(label) {
       if (label.length > 0) return "cursor-pointer";
       return "";
-    }
+    },
+
+    _tabStyleChanged: function(newValue, oldValue) {
+      Polymer.dom(this).removeAttribute('tab-style');
+      Polymer.dom(this).setAttribute('tab-style', newValue);
+    },
+
+    _sizeChanged: function(newValue, oldValue) {
+      Polymer.dom(this).removeAttribute('size');
+      Polymer.dom(this).setAttribute('size',  newValue);
+    },
   });
 </script>
