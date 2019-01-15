@@ -291,6 +291,18 @@
               disabled: {
                 type: "boolean",
                 title: "Disabled"
+              },
+              icon: {
+                type: "string",
+                title: "Icon"
+              },
+              badgeLabel: {
+                type: "string",
+                title: "Badge Label"
+              },
+              badgeColor: {
+                type: "string",
+                title: "Badge Color"
               }
             }
           }
@@ -298,6 +310,41 @@
         layout: "horizontal",
         title: "Tabs",
         xgridcols: "12"
+      },
+
+      position: {
+        type: String,
+        value: "left",
+        observer: "_positionChagned",
+        xvaluelist: [
+          { title: "Left", value: "left" },
+          { title: "Center", value: "center" },
+          { title: "Right", value: "right" }
+        ],
+        xtype: "enum",
+      },
+
+      tabStyle: {
+        type: String,
+        value: "default",
+        observer: "_tabStyleChanged",
+        xvaluelist: [
+          { title: "Default", value: "default" },
+          { title: "Tab", value: "tab" },
+          { title: "Pill", value: "pill" }
+        ],
+        xtype: "enum"
+      },
+
+      size: {
+        type: String,
+        value: "compact",
+        observer: "_sizeChanged",
+        xvaluelist: [
+          { title: "Compact", value: "compact" },
+          { title: "Large", value: "large" }
+        ],
+        xtype: "enum"
       },
 
       _step: {
@@ -566,7 +613,15 @@
       var self = this;
       newValue.forEach(function(tabDef) {
         var carbonTab = self.create('at-carbon-tab');
+
+        carbonTab.badgeLabel = tabDef.badgeLabel;
+        carbonTab.badgeColor = tabDef.badgeColor;
+        carbonTab.icon = tabDef.icon;
         carbonTab.label = tabDef.title;
+        
+        carbonTab.tabStyle = self.tabStyle;
+        carbonTab.size = self.size;
+
         carbonTab.setAttribute('id', tabDef.value);
         self.toggleAttribute('disabled', tabDef.disabled, carbonTab);
 
@@ -574,6 +629,30 @@
       });
 
       this.selected = newValue[0].value;
+    },
+
+    _positionChagned: function(newValue, oldValue) {
+      this.toggleClass("layout-start-justified", newValue == "left", this.$.tabsContent);
+      this.toggleClass("layout-center-justified", newValue == "center", this.$.tabsContent);
+      this.toggleClass("layout-end-justified", newValue == "right", this.$.tabsContent);
+    },
+    
+    _tabStyleChanged: function(newValue, oldValue) {
+      if (this.tabs.length == 0) return;
+
+      var formTabs = Polymer.dom(this.$.tabsContent).querySelectorAll('at-carbon-tab');
+      Array.prototype.forEach.call(formTabs, function(formTab, index) {
+        formTab.tabStyle = newValue;
+      });
+    },
+
+    _sizeChanged: function(newValue, oldValue) {
+      if (this.tabs.length == 0) return;
+
+      var formTabs = Polymer.dom(this.$.tabsContent).querySelectorAll('at-carbon-tab');
+      Array.prototype.forEach.call(formTabs, function(formTab, index) {
+        formTab.size = newValue;
+      });
     },
 
     _isString: function(obj) { return Object.prototype.toString.call(obj) === "[object String]"; },
