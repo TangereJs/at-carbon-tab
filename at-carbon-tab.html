@@ -16,6 +16,10 @@
         --tab-text-color: #4A90E2;
       }
 
+      :host * {
+        box-sizing: border-box;
+      }
+
       :host(.scrollable) {
         height: 100%;
       }
@@ -79,10 +83,11 @@
       */
       :host([tab-style="tab"]) {
         padding: 0;
+        margin-left: 1px;
       }
 
       :host([tab-style="tab"]) > #container {
-        border-bottom: 2px solid transparent;
+        height: 100%;
         padding: 0 12px;
 
         position: relative;
@@ -115,7 +120,7 @@
       }
 
       :host([tab-style="tab"]) > #container:after {
-        right: 0px;
+        right: -1px;
       }
 
       /*
