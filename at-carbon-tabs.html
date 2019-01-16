@@ -595,16 +595,17 @@
 
       if (!this._isArray(newValue)) return;
 
-      // if slotted items exist return;
+      // if slotted items exist return;      
       var slotted = Polymer.dom(this).children;
       if (slotted.length) return;
       
       // clear previous data if there are no slotted items 
-      var childToRemove = Polymer.dom(this.$.tabsContent).firstChild;
-      while(childToRemove.nodeName != "CONTENT" && childToRemove.nodeName != "SLOT") {
-        Polymer.dom(this.$.tabsContent).removeChild(childToRemove);
-        childToRemove = Polymer.dom(this.$.tabsContent).firstChild;
-      }
+      var tabsContent = this.$.tabsContent;
+      var childrenToRemove = Polymer.dom(this.$.tabsContent).getEffectiveChildNodes();
+      Array.prototype.forEach.call(childrenToRemove, function(childToRemove) {
+        if (childToRemove.id == "selectionBar") return;
+        Polymer.dom(tabsContent).removeChild(childToRemove);
+      });
 
       if (newValue.length == 0) return;
 
@@ -626,13 +627,21 @@
         Polymer.dom(self.$.tabsContent).insertBefore(carbonTab, self.$.selectionBar);
       });
 
-      this.selected = newValue[0].value;
+      if (!this.selected) {
+        this.selected = newValue[0].value;
+      }
+
+      if (this._tab) {
+        this._tabChanged(this._tab);
+      }
     },
 
     _positionChagned: function(newValue, oldValue) {
       this.toggleClass("layout-start-justified", newValue == "left", this.$.tabsContent);
       this.toggleClass("layout-center-justified", newValue == "center", this.$.tabsContent);
       this.toggleClass("layout-end-justified", newValue == "right", this.$.tabsContent);
+
+      this._tabChanged(this._tab);
     },
     
     _tabStyleChanged: function(newValue, oldValue) {
@@ -642,6 +651,8 @@
       Array.prototype.forEach.call(formTabs, function(formTab, index) {
         formTab.tabStyle = newValue;
       });
+
+      this._tabChanged(this._tab);
     },
 
     _sizeChanged: function(newValue, oldValue) {
@@ -651,6 +662,8 @@
       Array.prototype.forEach.call(formTabs, function(formTab, index) {
         formTab.size = newValue;
       });
+
+      this._tabChanged(this._tab);
     },
 
     _isString: function(obj) { return Object.prototype.toString.call(obj) === "[object String]"; },

@@ -74,7 +74,7 @@
         padding-bottom: 12px;
       }
 
-      :host([tab-style="default"].selected) > #container {
+      :host([tab-style="default"].iron-selected) > #container {
         border-bottom: 2px solid var(--primary-color);
       }
 
@@ -96,7 +96,7 @@
         border-bottom: 1px solid lightgray;
       }
 
-      :host([tab-style="tab"].selected) > #container {
+      :host([tab-style="tab"].iron-selected) > #container {
         border-bottom: 2px solid var(--primary-color);
         color: var(--tab-text-color) !important;
 
@@ -160,7 +160,7 @@
         display: block !important;
       }
 
-      :host([tab-style="tab"][size="large"].selected) {
+      :host([tab-style="tab"][size="large"].iron-selected) {
         color: var(--tab-text-color);
       }
 
@@ -198,7 +198,7 @@
         border: 1px solid lightgray;
       }
 
-      :host([tab-style="pill"].selected) {
+      :host([tab-style="pill"].iron-selected) {
         color: var(--tab-text-color) !important;
         background-color: var(--tab-background-color) !important;
       }
@@ -207,7 +207,7 @@
         PILL COMPACT styles
       */
       
-      :host([tab-style="pill"][size="compact"].selected) > #container label {
+      :host([tab-style="pill"][size="compact"].iron-selected) > #container label {
         color: var(--tab-text-color) !important;
       }
 
@@ -245,11 +245,11 @@
         display: block !important;
       }
 
-      :host([tab-style="pill"][size="large"].selected) > #container at-carbon-icon {
+      :host([tab-style="pill"][size="large"].iron-selected) > #container at-carbon-icon {
         color: var(--tab-icon-color) !important;
       }
 
-      :host([tab-style="pill"][size="large"].selected) > #container label {
+      :host([tab-style="pill"][size="large"].iron-selected) > #container label {
         color: var(--tab-text-color) !important;
       }
 
@@ -363,13 +363,23 @@
     },
 
     _tabStyleChanged: function(newValue, oldValue) {
+      var fnRef = this._tabStyleChanged;
+      this._tabStyleChanged = function() {};
+
       Polymer.dom(this).removeAttribute('tab-style');
       Polymer.dom(this).setAttribute('tab-style', newValue);
+
+      this._tabStyleChanged = fnRef;
     },
 
     _sizeChanged: function(newValue, oldValue) {
+      var fnRef = this._sizeChanged;
+      this._sizeChanged = function() {};
+
       Polymer.dom(this).removeAttribute('size');
       Polymer.dom(this).setAttribute('size',  newValue);
+
+      this._sizeChanged = fnRef;
     },
   });
 </script>
