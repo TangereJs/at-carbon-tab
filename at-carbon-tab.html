@@ -8,7 +8,6 @@
     <style>
        :host {
         display: inline-block;
-        padding: 0 12px;
         cursor: default;
 
         --tab-background-color: #EFF6FF;
@@ -34,6 +33,7 @@
 
       .tab-content {
         height: 100%;
+        padding: 0 12px;
         -webkit-transform: translateZ(0);
         transform: translateZ(0);
         transition: opacity 0.1s cubic-bezier(0.4, 0.0, 1, 1);
@@ -69,46 +69,51 @@
         cursor: pointer;
       }
 
+      .hidden {
+        display: none !important;
+      }
+
       .icon-with-label {
         margin-right: 4px;
       }
 
-      :host([tab-style="default"]) > #container {
+      #container.default {
         padding: 0 12px;
         padding-bottom: 12px;
       }
 
-      :host([tab-style="default"].iron-selected) > #container {
+      :host(.iron-selected) > #container.default {
         border-bottom: 2px solid var(--primary-color);
+      }
+
+      :host(:focus) {
+        outline: none;
       }
 
       /*
         STYLES for the tab-style tab
       */
-      :host([tab-style="tab"]) {
-        padding: 0;
-        margin-left: 1px;
-      }
-
-      :host([tab-style="tab"]) > #container {
-        height: 100%;
+      #container.tab {
         padding: 0 12px;
 
+        height: 100%;
         position: relative;
+
         margin: 0 auto;
+        margin-left: 1px;
 
         border-bottom: 1px solid lightgray;
       }
 
-      :host([tab-style="tab"].iron-selected) > #container {
+      :host(.iron-selected) > #container.tab {
         border-bottom: 2px solid var(--primary-color);
         color: var(--tab-text-color) !important;
 
         background-image: linear-gradient(transparent 10%, var(--tab-background-color));
       }
 
-      :host([tab-style="tab"]) > #container:before, 
-      :host([tab-style="tab"]) > #container:after {
+      #container.tab:before, 
+      #container.tab:after {
         content: "";
         position: absolute;
 
@@ -119,35 +124,32 @@
         background-image: linear-gradient(transparent 30%, lightgray 100%);
       }
 
-      :host([tab-style="tab"]) > #container:before {
+      #container.tab:before {
         left: -1px;
       }
 
-      :host([tab-style="tab"]) > #container:after {
+      #container.tab:after {
         right: -1px;
       }
 
       /*
         COMPACT TAB styles
       */
-      :host([tab-style="tab"][size="compact"]) > #container at-carbon-icon {
+      #container.tab.compact at-carbon-icon {
         display: none !important;
       }
 
-      :host([tab-style="tab"][size="compact"]:hover) > #container label {
+      :host(:hover) > #container.tab.compact label {
         cursor: pointer;
         color: var(--tab-text-color);
       }
 
-      :host([tab-style="tab"][size="compact"]:focus) {
+      :host(:focus) > #container.tab.compact {
         outline: none;
-      }
-
-      :host([tab-style="tab"][size="compact"]:focus) > #container {
         background-image: linear-gradient(transparent 10%, var(--tab-background-color));
       }
 
-      :host([tab-style="tab"][size="compact"]:focus) > #container label {
+      :host(:focus) > #container.tab.compact label {
         color: var(--tab-text-color);
       }
 
@@ -155,40 +157,36 @@
         LARGE TAB styles
       */
 
-      :host([tab-style="tab"][size="large"]) > #container at-carbon-icon {
+      #container.tab.large at-carbon-icon {
         display: block !important;
         margin: 0 auto;
       }
 
-      :host([tab-style="tab"][size="large"]) > #container label {
+      #container.tab.large label {
         display: block !important;
       }
 
-      :host([tab-style="tab"][size="large"].iron-selected) {
+      :host(.iron-selected) > #container.tab.large {
         color: var(--tab-text-color);
       }
 
-      :host([tab-style="tab"][size="large"]:hover) > #container at-carbon-icon {
+      :host(:hover) > #container.tab.large at-carbon-icon {
         color: var(--tab-text-color);
       }
 
-      :host([tab-style="tab"][size="large"]:hover) > #container label {
+      :host(:hover) > #container.tab.large label {
         color: var(--tab-text-color);
-      }
-
-      :host([tab-style="tab"][size="large"]:focus) {
-        outline: none;
       }
       
-      :host([tab-style="tab"][size="large"]:focus) > #container { 
+      :host(:focus) > #container.tab.large {
         background-image: linear-gradient(transparent 10%, var(--tab-background-color));
       }
 
-      :host([tab-style="tab"][size="large"]:focus) > #container at-carbon-icon {
+      :host(:focus) > #container.tab.large at-carbon-icon {
         color: var(--tab-text-color);
       }
 
-      :host([tab-style="tab"][size="large"]:focus) > #container label {
+      :host(:focus) > #container.tab.large label {
         color: var(--tab-text-color);
       }
 
@@ -196,13 +194,14 @@
         STYLES for the tab-style pill
       */
 
-      :host([tab-style="pill"]) {
+      #container.pill {
         position: relative;
-      
+        
+        padding: 0 12px;
         border: 1px solid lightgray;
       }
 
-      :host([tab-style="pill"].iron-selected) {
+      :host(.iron-selected) > #container.pill {
         color: var(--tab-text-color) !important;
         background-color: var(--tab-background-color) !important;
       }
@@ -211,28 +210,27 @@
         PILL COMPACT styles
       */
       
-      :host([tab-style="pill"][size="compact"].iron-selected) > #container label {
+      :host(.iron-selected) > #container.pill.compact label {
         color: var(--tab-text-color) !important;
       }
 
-      :host([tab-style="pill"][size="compact"]) > #container at-carbon-icon {
+      #container.pill.compact at-carbon-icon {
         display: none !important;
       }
 
-      :host([tab-style="pill"][size="compact"]:hover) {
+      :host(:hover) > #container.pill.compact {
         background-color: var(--at-light-grey);
       }
 
-      :host([tab-style="pill"][size="compact"]:hover) > #container label {
+      :host(:hover) > #container.pill.compact label {
         color: var(--at-black);
       }
 
-      :host([tab-style="pill"][size="compact"]:focus) {
-        outline: none;
+      :host(:focus) > #container.pill.compact {
         background-color: var(--at-light-grey);
       }
 
-      :host([tab-style="pill"][size="compact"]:focus) > #container label {
+      :host(:focus) > #container.pill.compact label {
         color: var(--tab-text-color);
       }
       
@@ -240,54 +238,54 @@
         PILL LARGE styles
       */
 
-      :host([tab-style="pill"][size="large"]) > #container at-carbon-icon {
+      #container.pill.large at-carbon-icon {
         display: block !important;
         margin: 0 auto;
       }
 
-      :host([tab-style="pill"][size="large"]) > #container label {
+      #container.pill.large label {
         display: block !important;
       }
 
-      :host([tab-style="pill"][size="large"].iron-selected) > #container at-carbon-icon {
+      :host(.iron-selected) > #container.pill.large at-carbon-icon {
         color: var(--tab-icon-color) !important;
       }
 
-      :host([tab-style="pill"][size="large"].iron-selected) > #container label {
+      :host(.iron-selected) > #container.pill.large label {
         color: var(--tab-text-color) !important;
       }
 
-      :host([tab-style="pill"][size="large"]:hover) {
+      :host(:hover) > #container.pill.large {
         background-color: var(--at-light-grey);
       }
 
-      :host([tab-style="pill"][size="large"]:hover) > #container at-carbon-icon {
+      :host(:hover) > #container.pill.large at-carbon-icon {
         color: var(--at-black);
       }
 
-      :host([tab-style="pill"][size="large"] :hover) > #container label {
+      :host(:hover) > #container.pill.large label {
         color: var(--at-black);
       }
 
-      :host([tab-style="pill"][size="large"]:focus) {
+      :host(:focus) > #container.pill.large {
         outline: none;
         background-color: var(--at-light-grey);
       }
 
-      :host([tab-style="pill"][size="large"]:focus) > #container at-carbon-icon {
+      :host(:focus) > #container.pill.large at-carbon-icon {
         color: var(--tab-icon-color);
       }
 
-      :host([tab-style="pill"][size="large"]:focus) > #container label {
+      :host(:focus) > #container.pill.large label {
         color: var(--tab-text-color);
       }
 
     </style>
 
-    <div id="container" class$="tab-content [[_computeAdditionalClasses(label)]]">
+    <div id="container" class$="tab-content [[_computeAdditionalClasses(label)]] [[_computeContainerTabStyleClasses(tabStyle, size)]] [[_computeContainerPillStyleClasses(tabStyle, size)]]">
       <div id="inner">
         <div hidden$="[[_computeLabelHidden(label, icon)]]">
-          <at-carbon-icon hidden$="[[_computeIconHidden(icon)]]" class$="[[_computeAdditionalIconClass(label, icon)]]"  icon="[[icon]]"></at-carbon-icon>
+          <at-carbon-icon hidden$="[[_computeIconHidden(icon)]]" class$="[[_computeAdditionalIconClass(label, icon, size)]]"  icon="[[icon]]"></at-carbon-icon>
           <label>[[label]]</label>
         </div> 
         <div hidden$="[[_computeInnerHTMLHidden(label, icon)]]">
@@ -327,7 +325,6 @@
       tabStyle: {
         type: String,
         value: "default",
-        observer: "_tabStyleChanged",
         xvaluelist: [
           { title: "Default", value: "default" },
           { title: "Tab", value: "tab" },
@@ -339,13 +336,34 @@
       size: {
         type: String,
         value: "compact",
-        observer: "_sizeChanged",
         xvaluelist: [ 
           { title: "Compact", value: "compact" },
           { title: "Large", value: "large" }
         ],
         xtype: "enum"
       }
+    },
+
+    _computeContainerTabStyleClasses: function(tabStyle, tabSize) {
+      if (tabStyle !== "tab") return "";
+      var result = [ "tab" ];
+      
+      if (tabSize !== "default") {
+        result.push(tabSize);
+      }
+      
+      return result.length > 0 ? result.join(" ") : result.toString();
+    },
+
+    _computeContainerPillStyleClasses: function(tabStyle, tabSize) {
+      if (tabStyle !== "pill") return "";
+      var result = [ "pill" ];
+      
+      if (tabSize !== "default") {
+        result.push(tabSize);
+      }
+
+      return result.join(" ");
     },
 
     _computeLabelHidden: function (label, icon) {
@@ -360,7 +378,9 @@
       return !icon;
     },
 
-    _computeAdditionalIconClass: function(label, icon) {
+    _computeAdditionalIconClass: function(label, icon, size) {
+      if (size == "compact") return 'hidden';
+      
       return (icon && label) ? "icon-with-label" : "";
     },
 
@@ -372,26 +392,6 @@
     _computeAdditionalClasses: function(label) {
       if (label.length > 0) return "cursor-pointer";
       return "";
-    },
-
-    _tabStyleChanged: function(newValue, oldValue) {
-      var fnRef = this._tabStyleChanged;
-      this._tabStyleChanged = function() {};
-
-      Polymer.dom(this).removeAttribute('tab-style');
-      Polymer.dom(this).setAttribute('tab-style', newValue);
-
-      this._tabStyleChanged = fnRef;
-    },
-
-    _sizeChanged: function(newValue, oldValue) {
-      var fnRef = this._sizeChanged;
-      this._sizeChanged = function() {};
-
-      Polymer.dom(this).removeAttribute('size');
-      Polymer.dom(this).setAttribute('size',  newValue);
-
-      this._sizeChanged = fnRef;
-    },
+    }
   });
 </script>

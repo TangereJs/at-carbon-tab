@@ -41,11 +41,7 @@
 
       <div class="demo-container">
         <h4>Default tab style with large size</h4>
-        <at-carbon-tabs
-          id="elt4"
-          tab-style="default"
-          size="large"
-        ></at-carbon-tabs>
+        <at-carbon-tabs id="elt4" tab-style="default" size="large"></at-carbon-tabs>
 
         <div>
           <div>Currently selected tab <span id="selectedTab4"></span></div>
@@ -57,11 +53,7 @@
       <div class="demo-container">
         <h4>TAB tab style with compact size</h4>
 
-        <at-carbon-tabs
-          id="elt2"
-          tab-style="tab"
-          size="compact"
-        ></at-carbon-tabs>
+        <at-carbon-tabs id="elt2" tab-style="tab" size="compact"></at-carbon-tabs>
 
         <div>
           <div>Currently selected tab <span id="selectedTab2"></span></div>
@@ -83,11 +75,7 @@
       <div class="demo-container">
         <h4>PILL tab style with compact size</h4>
 
-        <at-carbon-tabs
-          id="elt3"
-          tab-style="pill"
-          size="compact"
-        ></at-carbon-tabs>
+        <at-carbon-tabs id="elt3" tab-style="pill" size="compact"></at-carbon-tabs>
 
         <div>
           <div>Currently selected tab <span id="selectedTab3"></span></div>
@@ -106,54 +94,21 @@
 
     <script>
       document.addEventListener("WebComponentsReady", function() {
-        var valuelist1 = [
-          { title: "Title 1", value: "v1", icon: "now:alert" },
-          { title: "Title 2", value: "v2", icon: "now:alert" },
-          { title: "Title 3", value: "v3", icon: "now:alert" },
-          { title: "Title 4", value: "v4", icon: "now:alert" },
-          { title: "Title 5", value: "v5", icon: "now:alert" },
-          { title: "Title 6", value: "v6", icon: "now:alert" },
-          { title: "Title 7", value: "v7", icon: "now:alert" },
-          { title: "Title 8", value: "v8", icon: "now:alert" }
-        ];
+        var valuelist1 = [{ title: "Title 1", value: "v1", icon: "now:alert" }, { title: "Title 2", value: "v2", icon: "now:alert" }, { title: "Title 3", value: "v3", icon: "now:alert" }, { title: "Title 4", value: "v4", icon: "now:alert" }, { title: "Title 5", value: "v5", icon: "now:alert" }, { title: "Title 6", value: "v6", icon: "now:alert" }, { title: "Title 7", value: "v7", icon: "now:alert" }, { title: "Title 8", value: "v8", icon: "now:alert" }];
         initDemo("elt1", "selectedTab1", valuelist1, "v5");
 
-        var valuelist2 = [
-          { title: "Title 1", value: "v1", icon: "now:alert" },
-          { title: "Title 2", value: "v2", icon: "now:alert" },
-          { title: "Title 3", value: "v3", icon: "now:alert" },
-          { title: "Title 4", value: "v4", icon: "now:alert" },
-          { title: "Title 5", value: "v5", icon: "now:alert" },
-          { title: "Title 6", value: "v6", icon: "now:alert" },
-          { title: "Title 7", value: "v7", icon: "now:alert" },
-          { title: "Title 8", value: "v8", icon: "now:alert" }
-        ];
+        var valuelist2 = [{ title: "Title 1", value: "v1", icon: "now:alert" }, { title: "Title 2", value: "v2", icon: "now:alert" }, { title: "Title 3", value: "v3", icon: "now:alert" }, { title: "Title 4", value: "v4", icon: "now:alert" }, { title: "Title 5", value: "v5", icon: "now:alert" }, { title: "Title 6", value: "v6", icon: "now:alert" }, { title: "Title 7", value: "v7", icon: "now:alert" }, { title: "Title 8", value: "v8", icon: "now:alert" }];
 
         initDemo("elt2", "selectedTab2", valuelist2, "v5");
 
-        var valuelist3 = [
-          { title: "Title 1", value: "v1", icon: "now:alert" },
-          { title: "Title 2", value: "v2", icon: "now:alert" },
-          { title: "Title 3", value: "v3", icon: "now:alert" },
-          { title: "Title 4", value: "v4", icon: "now:alert" },
-          { title: "Title 5", value: "v5", icon: "now:alert" },
-          { title: "Title 6", value: "v6", icon: "now:alert" },
-          { title: "Title 7", value: "v7", icon: "now:alert" },
-          { title: "Title 8", value: "v8", icon: "now:alert" }
-        ];
+        var valuelist3 = [{ title: "Title 1", value: "v1", icon: "now:alert" }, { title: "Title 2", value: "v2", icon: "now:alert" }, { title: "Title 3", value: "v3", icon: "now:alert" }, { title: "Title 4", value: "v4", icon: "now:alert" }, { title: "Title 5", value: "v5", icon: "now:alert" }, { title: "Title 6", value: "v6", icon: "now:alert" }, { title: "Title 7", value: "v7", icon: "now:alert" }, { title: "Title 8", value: "v8", icon: "now:alert" }];
         initDemo("elt3", "selectedTab3", valuelist3, "", false);
 
         initDemo("elt4", "selectedTab4", valuelist1, "", false);
         initDemo("elt5", "selectedTab5", valuelist1, "", false);
         initDemo("elt6", "selectedTab6", valuelist1, "", false);
 
-        function initDemo(
-          eltSelector,
-          valueEchoSelector,
-          xvaluelist,
-          initialValue,
-          required
-        ) {
+        function initDemo(eltSelector, valueEchoSelector, xvaluelist, initialValue, required) {
           var selectedTab = document.getElementById(valueEchoSelector);
           var elt = document.getElementById(eltSelector);
 
