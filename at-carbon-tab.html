@@ -286,7 +286,7 @@
       <div id="inner">
         <div hidden$="[[_computeLabelHidden(label, icon)]]">
           <at-carbon-icon hidden$="[[_computeIconHidden(icon)]]" class$="[[_computeAdditionalIconClass(label, icon, size)]]"  icon="[[icon]]"></at-carbon-icon>
-          <label>[[label]]</label>
+          <label class="cursor-pointer">[[label]]</label>
         </div> 
         <div hidden$="[[_computeInnerHTMLHidden(label, icon)]]">
           <slot></slot>
