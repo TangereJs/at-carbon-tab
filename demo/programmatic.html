@@ -12,6 +12,7 @@
   <link rel="import" href="../../at-core-style-classes/at-core-style-classes.html" />
   <link rel="import" href="../../at-form-radio/at-form-radio.html">
   <link rel="import" href="../at-carbon-tabs.html">
+  <link rel="import" href="../at-carbon-tabs-heading.html">
 
   <style is="custom-style" include="at-core-style-classes">
     body {
@@ -61,12 +62,15 @@
       </at-carbon-tabs>
 
       <div id="tab-content-wrapper">
+          <at-carbon-tabs-heading data-name="item-one" step-number=1 for-stepper="programmaticTabs">ITEM ONE</at-carbon-tabs-heading>
         <div class="tab-content active" id="item-one">
           <h4>This is ITEM ONE content </h4>
         </div>
+        <at-carbon-tabs-heading data-name="item-one" step-number=1 for-stepper="programmaticTabs">ITEM ONE</at-carbon-tabs-heading>
         <div class="tab-content" id="item-two">
           <h4>This is ITEM TWO content </h4>
         </div>
+        <at-carbon-tabs-heading data-name="item-one" step-number=1 for-stepper="programmaticTabs">ITEM ONE</at-carbon-tabs-heading>
         <div class="tab-content" id="item-three">
           <h4>This is ITEM THREE content </h4>
         </div>
@@ -84,7 +88,7 @@
     document.addEventListener('WebComponentsReady', function(event) {
       var programmaticTabs = document.getElementById('programmaticTabs');
 
-      programmaticTabs.addEventListener('tab-changed', function (event) {
+      programmaticTabs.addEventListener('tab-changed', function(event) {
         var previousTab = event.detail.value.previousTab ? event.detail.value.previousTab : "previousTab not available";
         var currentTab = event.detail.value.currentTab ? event.detail.value.currentTab : "currentTab not available";
         // console.log("(previousTab, currentTab) = ("+ previousTab +", "+ currentTab +")");
@@ -99,7 +103,7 @@
       switchTabsRadio.label = "Tab Switcher"
       switchTabsRadio.xvaluelist = "item-one,item-two,item-three";
       switchTabsRadio.value = "item-one";
-      switchTabsRadio.addEventListener('value-changed', function (event) {
+      switchTabsRadio.addEventListener('value-changed', function(event) {
         var selectedTab = event.detail.value;
         // console.log("Selected tab: " + selectedTab);
 

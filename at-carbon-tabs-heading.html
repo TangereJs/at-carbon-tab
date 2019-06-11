@@ -1,0 +1,74 @@
+<link rel="import" href="../tangere/tangere.html">
+<link rel="import" href="../at-carbon-icon/at-carbon-icon.html">
+<link rel="import" href="../at-carbon-badge/at-carbon-badge.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../at-core-style-classes/at-core-style-classes.html" />
+<link rel="import" href="../iron-resizable-behavior/iron-resizable-behavior.html">
+<link rel="import" href="../iron-selector/iron-selector.html">
+
+<dom-module id="at-carbon-tabs-heading">
+    <template>
+        <style include="at-core-style-classes">
+        </style>
+    </template>
+</dom-module>
+
+<script>
+    Polymer({
+
+        is: 'at-carbon-tabs-heading',
+
+        properties: {
+            heading: {
+                type: String,
+                value: ''
+            },
+            stepNumber: {
+                type: String,
+                value: ''
+            },
+
+            forStepper: {
+                type: String,
+                value: ''
+            },
+
+            dataName: {
+                type: String,
+                value: ''
+            },
+
+            stepper: {
+                type: Object,
+                value: null
+            },
+        },
+
+        listeners: {
+            'tap': '_tapHandler'
+        },
+
+        _tapHandler: function(event) {
+
+            if(this.forStepper == null) {
+                console.log("Stepper-heading: for-stepper is null.");
+                return;
+            }
+
+            if(this.dataName == null) {
+                console.log("Stepper-heading: data-name is null.");
+                return;
+            }
+
+            var stepper = document.getElementById(this.forStepper);
+
+            if(stepper == null) {
+                console.log("Stepper-heading: stepper is null");
+                return;
+            }
+
+            stepper.selected = this.dataName
+        }
+
+    });
+</script>
