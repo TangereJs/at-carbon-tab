@@ -645,9 +645,8 @@
     },
     
     _tabStyleChanged: function(newValue, oldValue) {
-      if (this.tabs.length == 0) return;
 
-      var formTabs = Polymer.dom(this.$.tabsContent).querySelectorAll('at-carbon-tab');
+      var formTabs = Polymer.dom(this).querySelectorAll('at-carbon-tab');
       Array.prototype.forEach.call(formTabs, function(formTab, index) {
         formTab.tabStyle = newValue;
       });
@@ -656,9 +655,8 @@
     },
 
     _sizeChanged: function(newValue, oldValue) {
-      if (this.tabs.length == 0) return;
 
-      var formTabs = Polymer.dom(this.$.tabsContent).querySelectorAll('at-carbon-tab');
+      var formTabs = Polymer.dom(this).querySelectorAll('at-carbon-tab');
       Array.prototype.forEach.call(formTabs, function(formTab, index) {
         formTab.size = newValue;
       });
