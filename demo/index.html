@@ -10,7 +10,9 @@
     <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
     <link rel="import" href="../at-carbon-tabs.html">
     <link rel="import" href="../at-carbon-tab.html">
+    <link rel="import" href="../../at-carbon-button/at-carbon-button.html">
 
+    
     <style>
 
       body {
@@ -33,7 +35,7 @@
 
     <h3>A. No ink effect and no sliding bar</h3>
 
-    <at-carbon-tabs selected="0" nobar>
+    <at-carbon-tabs id="aCarbonTabs" selected="0" nobar>
 
       <at-carbon-tab id="0">ITEM ONE</at-carbon-tab>
       <at-carbon-tab id="1">ITEM TWO</at-carbon-tab>
@@ -43,7 +45,7 @@
 
     <h3>B. The bottom bar appears to indicate the selected tab, but without sliding effect.</h3>
 
-    <at-carbon-tabs selected="0" noslide>
+    <at-carbon-tabs id="bCarbonTabs" selected="0" noslide>
 
       <at-carbon-tab id="0">ITEM ONE</at-carbon-tab>
       <at-carbon-tab id="1">ITEM TWO</at-carbon-tab>
@@ -53,7 +55,7 @@
 
     <h3>C. The bar slides to the selected tab</h3>
 
-    <at-carbon-tabs selected="0">
+    <at-carbon-tabs id="cCarbonTabs" selected="0">
 
       <at-carbon-tab id="0">ITEM ONE</at-carbon-tab>
       <at-carbon-tab id="1">ITEM TWO</at-carbon-tab>
@@ -63,7 +65,7 @@
 
     <h3>D. Inky Tabs</h3>
 
-    <at-carbon-tabs selected="0">
+    <at-carbon-tabs id="dCarbonTabs" selected="0">
 
       <at-carbon-tab id="0">ITEM ONE</at-carbon-tab>
       <at-carbon-tab id="1">ITEM TWO</at-carbon-tab>
@@ -92,7 +94,7 @@
 
     <h3>F. Link Tabs</h3>
 
-    <at-carbon-tabs selected="0">
+    <at-carbon-tabs id="fCarbonTabs" selected="0">
 
       <at-carbon-tab id="0" link><a href="#item1" class="horizontal center-center layout">ITEM ONE</a></at-carbon-tab>
       <at-carbon-tab id="1" link><a href="#item2" class="horizontal center-center layout">ITEM TWO</a></at-carbon-tab>
@@ -103,7 +105,7 @@
     
     <h3>G. Tabs aligned to bottom</h3>
 
-    <at-carbon-tabs selected="0" align-bottom>
+    <at-carbon-tabs id="gCarbonTabs" selected="0" align-bottom>
 
       <at-carbon-tab id="0">ITEM ONE</at-carbon-tab>
       <at-carbon-tab id="1">ITEM TWO</at-carbon-tab>
@@ -115,7 +117,7 @@
 
     <template is="dom-bind">
       <h2>Current Tab: <span>[[selected]]</span></h2>
-      <at-carbon-tabs selected="{{selected}}">
+      <at-carbon-tabs id="hCarbonTabs" selected="{{selected}}">
 
         <at-carbon-tab id="0">ITEM ONE</at-carbon-tab>
         <at-carbon-tab id="1">ITEM TWO</at-carbon-tab>
@@ -123,6 +125,61 @@
 
       </at-carbon-tabs>
     </template>
+
+    <div>
+      <h3> Switch between tab styles for B.</h3>
+      <at-carbon-button id="default" button-color="primary" label="default"></at-carbon-button>
+      <at-carbon-button id="tab" button-color="primary" label="tab"></at-carbon-button>
+      <at-carbon-button id="pill" button-color="primary" label="pill"></at-carbon-button>
+    </div>
+
+    <script type="text/javascript">
+      document.addEventListener('WebComponentsReady', function(event) {
+        var defaultButton = document.getElementById('default');
+        var tabButton = document.getElementById('tab');
+        var pillButton = document.getElementById('pill');
+
+        var aCarbonTabs = document.getElementById('aCarbonTabs');
+        var bCarbonTabs = document.getElementById('bCarbonTabs');
+        var cCarbonTabs = document.getElementById('cCarbonTabs');
+        var dCarbonTabs = document.getElementById('dCarbonTabs');
+        var eCarbonTabs = document.getElementById('scrollableTabs');
+        var fCarbonTabs = document.getElementById('fCarbonTabs');
+        var gCarbonTabs = document.getElementById('gCarbonTabs');
+
+
+        defaultButton.addEventListener('click', function(event) {
+          aCarbonTabs.tabStyle = "default";
+          bCarbonTabs.tabStyle = "default";
+          cCarbonTabs.tabStyle = "default";
+          dCarbonTabs.tabStyle = "default";
+          eCarbonTabs.tabStyle = "default";
+          fCarbonTabs.tabStyle = "default";
+          gCarbonTabs.tabStyle = "default";
+        });
+
+        tabButton.addEventListener('click', function(event) {
+          aCarbonTabs.tabStyle = "tab";
+          bCarbonTabs.tabStyle = "tab";
+          cCarbonTabs.tabStyle = "tab";
+          dCarbonTabs.tabStyle = "tab";
+          eCarbonTabs.tabStyle = "tab";
+          fCarbonTabs.tabStyle = "tab";
+          gCarbonTabs.tabStyle = "tab";
+        });
+
+        pillButton.addEventListener('click', function(event) {
+          aCarbonTabs.tabStyle = "pill";
+          bCarbonTabs.tabStyle = "pill";
+          cCarbonTabs.tabStyle = "pill";
+          dCarbonTabs.tabStyle = "pill";
+          eCarbonTabs.tabStyle = "pill";
+          fCarbonTabs.tabStyle = "pill";
+          gCarbonTabs.tabStyle = "pill";
+        });
+  
+      });
+    </script>
 
   </body>
 </html>
