@@ -402,6 +402,13 @@
 
       renderSelectedTabInterval = setInterval(renderSelectedTab, 100);
       renderSelectedTab();
+
+      // initialize style on children
+      if(!this._isAttached) {
+        this._isAttached = true;
+        this._sizeChanged(this.size);
+        this._tabStyleChanged(this.tabStyle);
+      }
     },
 
     /**
@@ -646,6 +653,8 @@
     
     _tabStyleChanged: function(newValue, oldValue) {
 
+      if(!this._isAttached) return;
+
       var formTabs = Polymer.dom(this).querySelectorAll('at-carbon-tab');
       Array.prototype.forEach.call(formTabs, function(formTab, index) {
         formTab.tabStyle = newValue;
@@ -655,6 +664,8 @@
     },
 
     _sizeChanged: function(newValue, oldValue) {
+
+      if (!this._isAttached) return;
 
       var formTabs = Polymer.dom(this).querySelectorAll('at-carbon-tab');
       Array.prototype.forEach.call(formTabs, function(formTab, index) {
