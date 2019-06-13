@@ -147,7 +147,7 @@
           <at-carbon-icon icon="caret-left" class$="[[_computeIconClass(leftHidden)]] scroll-button" on-down="_onLeftScrollButtonDown" on-up="_onScrollButtonUp"></at-carbon-icon>
         </div>
 
-        <div id="tabsContainer" on-scroll="_scroll">
+        <div id="tabsContainer" on-scroll="_scroll" class="font-subhead">
 
           <iron-selector id="tabsContent" class$="[[_computeTabsContentClass(scrollable)]]" selected="{{selected}}" selected-item="{{_tab}}" attr-for-selected="[[attrForSelected]]" selectable="at-carbon-tab">
 
