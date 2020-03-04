@@ -354,7 +354,7 @@
     },
 
     _computeContainerTabStyleClasses: function(tabStyle, tabSize) {
-      if (tabStyle !== "tab") return "";
+      if (tabStyle !== "tab") return tabStyle;
       var result = [ "tab" ];
       
       if (tabSize !== "default") {
