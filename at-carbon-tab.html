@@ -40,6 +40,10 @@
         @apply --at-form-disabled;
       }
 
+      :host([disabled]) :hover {
+        cursor: not-allowed;
+      }
+
       .tab-content {
         height: 100%;
         padding: 0 12px;
@@ -91,10 +95,6 @@
         padding-bottom: 12px;
       }
 
-      :host(.iron-selected) > #container.default {
-        border-bottom: 2px solid var(--primary-color);
-      }
-
       :host(:focus) {
         outline: none;
       }
@@ -115,7 +115,6 @@
       }
 
       :host(.iron-selected) > #container.tab {
-        border-bottom: 2px solid var(--primary-color);
         color: var(--tab-text-color) !important;
 
         background-image: linear-gradient(transparent 10%, var(--tab-background-color));
