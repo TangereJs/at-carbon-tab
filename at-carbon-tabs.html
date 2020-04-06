@@ -631,7 +631,7 @@
 
         carbonTab.setAttribute('id', tabDef.value);
         self.toggleAttribute('disabled', tabDef.disabled, carbonTab);
-
+        
         Polymer.dom(self.$.tabsContent).insertBefore(carbonTab, self.$.selectionBar);
       });
 
@@ -656,7 +656,7 @@
 
       if(!this._isAttached) return;
 
-      var formTabs = Polymer.dom(this).querySelectorAll('at-carbon-tab');
+      var formTabs = Polymer.dom(this.$.tabsContent).querySelectorAll('at-carbon-tab');
       Array.prototype.forEach.call(formTabs, function(formTab, index) {
         formTab.tabStyle = newValue;
       });
@@ -668,7 +668,7 @@
 
       if (!this._isAttached) return;
 
-      var formTabs = Polymer.dom(this).querySelectorAll('at-carbon-tab');
+      var formTabs = Polymer.dom(this.$.tabsContent).querySelectorAll('at-carbon-tab');
       Array.prototype.forEach.call(formTabs, function(formTab, index) {
         formTab.size = newValue;
       });
